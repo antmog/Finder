@@ -5,9 +5,9 @@
 <?import javafx.scene.layout.*?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="197.0"
-            prefWidth="229.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="finder.view.SplitTop.SearchOptionsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+             xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="finder.view.SplitRight.SplitTop.SearchOptionsController">
     <TableView fx:id="tableExtensions" layoutX="11.0" layoutY="98.0" prefHeight="89.0" prefWidth="211.0"
                AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="7.0"
                AnchorPane.topAnchor="98.0">

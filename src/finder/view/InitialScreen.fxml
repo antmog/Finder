@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.*?>
 
-<SplitPane styleClass="mainSplitPane" dividerPositions="0.3" maxHeight="-Infinity" maxWidth="-Infinity"
-           minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" xmlns="http://javafx.com/javafx/8">
+<SplitPane dividerPositions="0.25" prefWidth="1000" prefHeight="600" fx:id="mainSplitPane" fx:controller="finder.view.InitialScreenController"  orientation="VERTICAL" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+
 </SplitPane>
-<!-- xmlns:fx="http://javafx.com/fxml/1" -->

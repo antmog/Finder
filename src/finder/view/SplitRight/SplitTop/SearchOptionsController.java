@@ -1,4 +1,4 @@
-package finder.view.SplitTop;
+package finder.view.SplitRight.SplitTop;
 
 import finder.model.Extension;
 import javafx.collections.FXCollections;

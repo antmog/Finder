@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+
+<!-- xmlns:fx="http://javafx.com/fxml/1" -->
+
+<SplitPane fx:id="splitBottom" fx:controller="finder.view.SplitRight.SplitBottom.SplitBottomController" dividerPositions="0.5"  orientation="VERTICAL" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+
+</SplitPane>
