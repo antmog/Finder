@@ -1,22 +1,25 @@
 package finder;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTreeCell;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Rectangle;
+
 import javafx.stage.Stage;
 import javafx.application.Platform;
 
 import finder.util.Resources;
+import org.apache.commons.io.FilenameUtils;
 import sun.plugin.javascript.navig.Anchor;
+
+import java.io.File;
+
+import static java.lang.Thread.sleep;
 
 public class Finder extends Application {
 
@@ -39,31 +42,46 @@ public class Finder extends Application {
             SplitPane view = loader.load();
 
             // Creating sub-elements for the scene.
-            // First (top) part of interface.
-            SplitPane SplitSearch = new SplitPane();
-            TextArea textArea = new TextArea();
-            Node SearchOptionsBlock = FXMLLoader.load(this.getClass().getResource(Resources.FXML + "SearchOptionsBlock.fxml"));
-            AnchorPane rightAnchor = new AnchorPane();
 
+            // Initialising TOP part of interface.
+            SplitPane SplitTop = new SplitPane();
+
+            // Elements of top part of interface.
+            // Search text area.
+            TextArea textArea = FXMLLoader.load(this.getClass().getResource(Resources.FXMLtop + "TextArea.fxml"));
+            // Search options block.
+            Node SearchOptionsBlock = FXMLLoader.load(this.getClass().getResource(Resources.FXMLtop + "SearchOptionsBlock.fxml"));
+            // Wrapping search options block into Anchor Pane (for better visualisation).
+            AnchorPane rightAnchor = new AnchorPane();
             rightAnchor.getChildren().add(SearchOptionsBlock);
-            SplitSearch.setOrientation(Orientation.HORIZONTAL);
             AnchorPane.setTopAnchor(SearchOptionsBlock,5.0);
 
-            // Link style ID's for sub-elements.
-            SplitSearch.getStyleClass().add("splitSearch");
+            // Link style ID's for sub-elements of top part.
+            SplitTop.getStyleClass().add("splitSearch");
             textArea.getStyleClass().add("searchText");
             SearchOptionsBlock.getStyleClass().add("SearchOptionsBlock");
+
             // Filling top part of interface with sub-elements.
-            SplitSearch.getItems().addAll(textArea,rightAnchor);
+            SplitTop.setOrientation(Orientation.HORIZONTAL);
+            SplitTop.getItems().addAll(textArea,rightAnchor);
 
-            // Bottom part of interface.
-            Button qq = new Button();
+            // Initialising BOTTOM part of interface.
+            SplitPane SplitBottom = new SplitPane();
+            SplitBottom.setOrientation(Orientation.HORIZONTAL);
 
-            // Making full main scene.
-            view.getItems().addAll(SplitSearch, qq);
+            // Elements of bottom part of interface.
+            // Initialize file tree.
+            TreeView<String> treeView = FXMLLoader.load(this.getClass().getResource(Resources.FXMLbot + "FileTree.fxml"));
+
+            Button tt = new Button();
+            // Filling bottom part of interface with sub-elements.
+            SplitBottom.getItems().addAll(treeView, tt);
+
+            // Adding top and bottom barts to main layout.
+            view.getItems().addAll(SplitTop, SplitBottom);
             view.getStylesheets().add(Resources.CSS + "InitialScreen.css");
 
-            // Shows the scene containing the layout.
+            // Shows the scene containing the main layout.
             Scene scene = new Scene(view);
             stage.setScene(scene);
             stage.show();
@@ -77,5 +95,19 @@ public class Finder extends Application {
 
     public static void main(String[] args) {
         launch(Finder.class);
+    }
+
+    private static void createTree(File file, CheckBoxTreeItem<String> parent) {
+        if (file.isDirectory()) {
+            CheckBoxTreeItem<String> treeItem = new CheckBoxTreeItem<>(file.getName());
+            parent.getChildren().add(treeItem);
+            if(file.listFiles()!=null){
+                for (File f : file.listFiles()) {
+                  createTree(f, treeItem);
+                }
+            }
+        } else if (".php".equals(FilenameUtils.getExtension(file.toString()))) {
+            parent.getChildren().add(new CheckBoxTreeItem<>(file.getName()));
+        }
     }
 }

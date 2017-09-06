@@ -1,17 +1,18 @@
 .mainSplitPane{
     -fx-background-color: lightgray;
-    -fx-max-width: 500pt;
-    -fx-min-width: 500pt;
+    -fx-max-width: 800pt;
+    -fx-min-width: 800pt;
+    -fx-max-height: 500pt;
+    -fx-min-height: 500pt;
+}
+.searchText{
+    -fx-padding:10 10 10 10;
+    -fx-background-color: lightgray;
 }
 .splitSearch{
     -fx-background-color: lightgray;
     -fx-max-height: 150pt;
     -fx-min-height: 150pt;
 }
-.searchText{
-    -fx-padding:10 10 10 10;
-    -fx-background-color: lightgray;
-}
-.searchOptionsBlock{
 
-}
+

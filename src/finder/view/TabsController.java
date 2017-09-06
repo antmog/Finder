@@ -15,12 +15,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import javafx.scene.control.TableColumn;
 
-
-
-public class CommonController {
+public class TabsController {
 
     @FXML
     private TabPane tabPane ;
+
 
     @FXML
     private void addTab() {
@@ -33,4 +32,6 @@ public class CommonController {
             e.printStackTrace();
         }
     }
+
+
 }

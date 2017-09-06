@@ -1,6 +1,7 @@
 package finder.model;
 
 /**
+ * Table content type.
  * Created by antmog on 04.09.2017.
  */
 public class Extension {
@@ -14,8 +15,6 @@ public class Extension {
     public Extension( String content) {
         this.content = content;
     }
-
-
 
     public String getLogin() {
         return content;

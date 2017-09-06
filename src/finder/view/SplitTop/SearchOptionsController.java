@@ -1,4 +1,4 @@
-package finder.view;
+package finder.view.SplitTop;
 
 import finder.model.Extension;
 import javafx.collections.FXCollections;
@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
+ * Controller for SearchOptions part of application.
  * Created by antmog on 05.09.2017.
  */
 public class SearchOptionsController {
@@ -47,6 +48,16 @@ public class SearchOptionsController {
     @FXML
     private void addExtension() {
         tableData.add(new Extension(addExtensionText.getText()));
+        tableExtensions.setItems(tableData);
+    }
+
+    /**
+     * Deleting selected extension from search list and refreshing table.
+     */
+    @FXML
+    private void delSelectedExtension() {
+        Extension selectedItem = tableExtensions.getSelectionModel().getSelectedItem();
+        tableExtensions.getItems().remove(selectedItem);
         tableExtensions.setItems(tableData);
     }
 
