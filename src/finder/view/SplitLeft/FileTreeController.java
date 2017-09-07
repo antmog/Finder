@@ -30,7 +30,6 @@ public class FileTreeController {
         // Setting root item for file tree.
         fileTree.setRoot(rootItem);
 
-
         // File tree listener (expands folders and loads content w/o content of sub-folders, user will have to click at
         // sub-folder to load more content).
         fileTree.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {

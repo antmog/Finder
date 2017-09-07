@@ -1,14 +1,13 @@
 package finder.view.SplitRight.SplitTop;
 
+import finder.model.ActionsInterface;
 import finder.model.Extension;
 import finder.view.InitialScreenController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
@@ -16,12 +15,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
  * Created by antmog on 05.09.2017.
  */
 public class SearchOptionsController {
-
     private ObservableList<Extension> tableData = FXCollections.observableArrayList();
+
+    private ActionsInterface actionsInterface;
 
     // Text field where user enters extension.
     @FXML
-    private TextField addExtensionText ;
+    private TextField addExtensionText;
 
     // Linking table.
     @FXML
@@ -30,6 +30,24 @@ public class SearchOptionsController {
     @FXML
     private TableColumn<Extension, String> extensionsColumn;
 
+    @FXML
+    private Button searchFilesButton;
+
+    public SearchOptionsController(ActionsInterface actionsInterface){
+        this.actionsInterface = actionsInterface;
+    }
+
+
+    /*
+    searchFilesButton.setOnAction(new EventHandler<ActionEvent😠) {
+            @Override public void handle(ActionEvent e) {
+                System.out.println("CLICK CLICK");
+            }
+        });
+        FIX WITH LISTENER INC (to fix FXML ERROR)
+
+    /*
+     */
     /**
      * Initialising table.
      */
@@ -70,7 +88,12 @@ public class SearchOptionsController {
         tableData.add(new Extension("log"));
     }
 
+    /**
+     * Searching files (button action).
+     */
+    @FXML
     public void searchFiles() {
-        //
+        actionsInterface.actionClick();
+
     }
 }

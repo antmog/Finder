@@ -1,5 +1,6 @@
 package finder.view.SplitRight.SplitTop;
 
+import finder.model.ActionsInterface;
 import finder.util.Resources;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,21 +17,30 @@ import javafx.scene.layout.AnchorPane;
  */
 public class SplitTopController {
 
+    private ActionsInterface actionsInterface;
+
     @FXML
     private SplitPane splitTop;
 
     private TextArea textArea;
 
+    public SplitTopController(ActionsInterface actionsInterface){
+        this.actionsInterface = actionsInterface;
+    }
+
     @FXML
     private void initialize() {
-
         try {
             // Elements of top part of interface.
 
             // Search text area.
-            textArea = FXMLLoader.load(this.getClass().getResource(Resources.FXMLtop + "TextArea.fxml"));
+            FXMLLoader textLoader = new FXMLLoader(this.getClass().getResource(Resources.FXMLtop + "TextArea.fxml"));
+            textLoader.setController(new TextAreaController(this.actionsInterface));
+            textArea = textLoader.load();
             // Search options block.
-            Node SearchOptionsBlock = FXMLLoader.load(this.getClass().getResource(Resources.FXMLtop + "SearchOptionsBlock.fxml"));
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource(Resources.FXMLtop + "SearchOptionsBlock.fxml"));
+            loader.setController(new SearchOptionsController(this.actionsInterface));
+            Node SearchOptionsBlock = loader.load();
 
             // Wrapping search options block into Anchor Pane (for better visualisation).
             AnchorPane rightAnchor = new AnchorPane();

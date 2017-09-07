@@ -1,6 +1,9 @@
 package finder.view;
 
+import com.sun.org.apache.xml.internal.security.Init;
+import finder.model.ActionsInterface;
 import finder.util.Resources;
+import finder.view.SplitRight.SplitRightController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -12,18 +15,22 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.AnchorPane;
 
+import javax.swing.*;
+
 /**
  * Controller of main layout (initial screen).
  * Created by antmog on 07.09.2017.
  */
 public class InitialScreenController {
 
-
-
-    private Button searchFilesButton;
+    private ActionsInterface actionsInterface;
 
     @FXML
     private SplitPane mainSplitPane;
+
+    public InitialScreenController(ActionsInterface actionsInterface){
+        this.actionsInterface = actionsInterface;
+    }
 
     @FXML
     private void initialize() {
@@ -38,14 +45,9 @@ public class InitialScreenController {
             // Loading left pane.
             TreeView SplitLeft = FXMLLoader.load(this.getClass().getResource(Resources.FXMLleft + "FileTree.fxml"));
             // Loading right pane.
-            SplitPane SplitRight = FXMLLoader.load(this.getClass().getResource(Resources.FXMLright + "SplitRight.fxml"));
-
-
-            SplitPane splitTop = (SplitPane) SplitRight.getItems().get(0);
-            AnchorPane anchor = (AnchorPane) splitTop.getItems().get(1);
-            AnchorPane anchor1 = (AnchorPane) anchor.getChildren().get(0);
-            searchFilesButton = (Button) anchor1.getChildren().get(6);
-
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource(Resources.FXMLright + "SplitRight.fxml"));
+            loader.setController(new SplitRightController(this.actionsInterface));
+            SplitPane SplitRight = loader.load();
 
             // Adding top and bottom parts to main layout.
             mainSplitPane.getItems().addAll(SplitLeft, SplitRight);
@@ -54,17 +56,12 @@ public class InitialScreenController {
         }
 
 
-        searchFilesButton.setOnAction(new EventHandler<ActionEvent>() {
+       /* searchFilesButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 System.out.println("CLICK CLICK");
             }
-        });
+        });*/
     }
 
-
-    @FXML
-    private void searchFiles() {
-        System.out.println("Searching...");
-    }
 }
 

@@ -2,6 +2,6 @@
 
 <?import javafx.scene.control.*?>
 
-<SplitPane fx:controller="finder.view.SplitRight.SplitTop.SplitTopController" fx:id="splitTop" dividerPositions="0.75"   xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<SplitPane fx:id="splitTop" dividerPositions="0.75"   xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
 
 </SplitPane>
