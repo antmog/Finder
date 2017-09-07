@@ -9,7 +9,4 @@ public class TextAreaController {
     private TextArea textSearchArea ;
 
 
-
-
-
 }

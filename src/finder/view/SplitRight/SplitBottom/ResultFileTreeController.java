@@ -7,7 +7,7 @@ import javafx.scene.control.cell.CheckBoxTreeCell;
 
 import java.io.File;
 
-public class FileTreeController {
+public class ResultFileTreeController {
 
     @FXML
     private TreeView fileTree;

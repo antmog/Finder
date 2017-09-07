@@ -1,4 +1,4 @@
-package finder.view;
+package finder.view.SplitRight.SplitBottom;
 
 import finder.model.Extension;
 import finder.util.Resources;
@@ -19,7 +19,6 @@ public class TabsController {
 
     @FXML
     private TabPane tabPane ;
-
 
     @FXML
     private void addTab() {

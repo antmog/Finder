@@ -1,26 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-             xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="finder.view.SplitRight.SplitTop.SearchOptionsController">
-    <TableView fx:id="tableExtensions" layoutX="11.0" layoutY="98.0" prefHeight="89.0" prefWidth="211.0"
-               AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="7.0"
-               AnchorPane.topAnchor="98.0">
-        <columns>
-            <TableColumn fx:id="extensionsColumn" prefWidth="122.0" text="Extensions"/>
-        </columns>
-    </TableView>
-    <Label layoutX="14.0" layoutY="6.0" text="Search parameters." AnchorPane.topAnchor="5.0"/>
-    <TextField fx:id="addExtensionText" layoutX="11.0" layoutY="64.0" prefHeight="25.0" prefWidth="66.0"
-               text="type here"/>
-    <Button layoutX="96.0" layoutY="64.0" mnemonicParsing="false" onAction="#addExtension" prefHeight="25.0"
-            prefWidth="52.0" text="Add"/>
-    <Label layoutX="14.0" layoutY="41.0" text="Chose 1 or more extensions:"/>
-    <Button onAction="#delSelectedExtension" layoutX="170.0" layoutY="64.0" mnemonicParsing="false"
-            prefHeight="25.0" prefWidth="52.0" text="Delete"/>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="finder.view.SplitRight.SplitTop.SearchOptionsController">
+   <children>
+       <TableView fx:id="tableExtensions" layoutX="11.0" layoutY="98.0" prefHeight="89.0" prefWidth="211.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="98.0">
+           <columns>
+               <TableColumn fx:id="extensionsColumn" prefWidth="122.0" text="Extensions" />
+           </columns>
+       </TableView>
+       <Label layoutX="14.0" layoutY="6.0" text="Search parameters." AnchorPane.topAnchor="5.0" />
+       <TextField fx:id="addExtensionText" layoutX="11.0" layoutY="64.0" prefHeight="25.0" prefWidth="66.0" text="type here" />
+       <Button layoutX="96.0" layoutY="64.0" mnemonicParsing="false" onAction="#addExtension" prefHeight="25.0" prefWidth="52.0" text="Add" />
+       <Label layoutX="14.0" layoutY="41.0" text="Chose 1 or more extensions:" />
+       <Button layoutX="170.0" layoutY="64.0" mnemonicParsing="false" onAction="#delSelectedExtension" prefHeight="25.0" prefWidth="52.0" text="Delete" />
+      <Button onAction="#searchFiles" fx:id="searchFilesButton" layoutX="128.0" layoutY="4.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="91.0" text="Search" />
+   </children>
 </AnchorPane>

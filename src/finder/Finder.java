@@ -44,5 +44,4 @@ public class Finder extends Application {
     public static void main(String[] args) {
         launch(Finder.class);
     }
-
 }

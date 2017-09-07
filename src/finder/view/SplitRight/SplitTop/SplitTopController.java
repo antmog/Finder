@@ -19,6 +19,8 @@ public class SplitTopController {
     @FXML
     private SplitPane splitTop;
 
+    private TextArea textArea;
+
     @FXML
     private void initialize() {
 
@@ -26,10 +28,10 @@ public class SplitTopController {
             // Elements of top part of interface.
 
             // Search text area.
-            TextArea textArea = FXMLLoader.load(this.getClass().getResource(Resources.FXMLtop + "TextArea.fxml"));
+            textArea = FXMLLoader.load(this.getClass().getResource(Resources.FXMLtop + "TextArea.fxml"));
             // Search options block.
-
             Node SearchOptionsBlock = FXMLLoader.load(this.getClass().getResource(Resources.FXMLtop + "SearchOptionsBlock.fxml"));
+
             // Wrapping search options block into Anchor Pane (for better visualisation).
             AnchorPane rightAnchor = new AnchorPane();
             rightAnchor.getChildren().add(SearchOptionsBlock);
@@ -44,5 +46,8 @@ public class SplitTopController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public void searchFiles() {
+        System.out.println(textArea.getParagraphs());
     }
 }

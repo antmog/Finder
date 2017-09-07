@@ -1,8 +1,10 @@
 package finder.view.SplitRight.SplitTop;
 
 import finder.model.Extension;
+import finder.view.InitialScreenController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -66,5 +68,9 @@ public class SearchOptionsController {
      */
     private void initData() {
         tableData.add(new Extension("log"));
+    }
+
+    public void searchFiles() {
+        //
     }
 }
