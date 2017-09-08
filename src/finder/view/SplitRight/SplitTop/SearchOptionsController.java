@@ -38,16 +38,6 @@ public class SearchOptionsController {
     }
 
 
-    /*
-    searchFilesButton.setOnAction(new EventHandler<ActionEvent😠) {
-            @Override public void handle(ActionEvent e) {
-                System.out.println("CLICK CLICK");
-            }
-        });
-        FIX WITH LISTENER INC (to fix FXML ERROR)
-
-    /*
-     */
     /**
      * Initialising table.
      */
@@ -56,7 +46,7 @@ public class SearchOptionsController {
         initData();
 
         // Selecting column type.
-        extensionsColumn.setCellValueFactory(new PropertyValueFactory<Extension, String>("login"));
+        extensionsColumn.setCellValueFactory(new PropertyValueFactory<Extension, String>("extension"));
 
         // Adding data to table.
         tableExtensions.setItems(tableData);
@@ -68,7 +58,6 @@ public class SearchOptionsController {
     @FXML
     private void addExtension() {
         tableData.add(new Extension(addExtensionText.getText()));
-        tableExtensions.setItems(tableData);
     }
 
     /**
@@ -78,7 +67,6 @@ public class SearchOptionsController {
     private void delSelectedExtension() {
         Extension selectedItem = tableExtensions.getSelectionModel().getSelectedItem();
         tableExtensions.getItems().remove(selectedItem);
-        tableExtensions.setItems(tableData);
     }
 
     /**
@@ -93,7 +81,7 @@ public class SearchOptionsController {
      */
     @FXML
     public void searchFiles() {
+        actionsInterface.actionGetTableData(tableData);
         actionsInterface.actionClick();
-
     }
 }

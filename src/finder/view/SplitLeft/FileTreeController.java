@@ -1,5 +1,6 @@
 package finder.view.SplitLeft;
 
+import finder.model.ActionsInterface;
 import finder.util.Resources;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,8 +11,14 @@ import java.io.File;
 
 public class FileTreeController {
 
+    private ActionsInterface actionsInterface;
+
     @FXML
     private TreeView fileTree;
+
+    public FileTreeController(ActionsInterface actionsInterface){
+        this.actionsInterface = actionsInterface;
+    }
 
     @FXML
     private void initialize() {
@@ -24,17 +31,20 @@ public class FileTreeController {
         File[] roots = File.listRoots();
         for (File root : roots) {
             CheckBoxTreeItem<String> treeItem = new CheckBoxTreeItem<>(root.getAbsolutePath());
+            treeItem.setIndependent(true);
             rootItem.getChildren().add(treeItem);
         }
 
         // Setting root item for file tree.
         fileTree.setRoot(rootItem);
+        actionsInterface.actionGetTree(fileTree);
 
         // File tree listener (expands folders and loads content w/o content of sub-folders, user will have to click at
         // sub-folder to load more content).
         fileTree.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             CheckBoxTreeItem<String> selectedItem = (CheckBoxTreeItem<String>) newValue;
-            File file = new File(getFilePath(selectedItem));
+            selectedItem.setIndependent(true);
+            File file = new File(actionsInterface.getFilePath(selectedItem));
             createTree(file, selectedItem);
         });
     }
@@ -51,6 +61,7 @@ public class FileTreeController {
                 for (File f : file.listFiles()) {
                     if(f.isDirectory()){
                         CheckBoxTreeItem<String> treeItem = new CheckBoxTreeItem<>(f.getName());
+                        treeItem.setIndependent(true);
                         parent.getChildren().add(treeItem);
                     }
                 }
@@ -61,22 +72,5 @@ public class FileTreeController {
         }
     }
 
-    /**
-     * Getting filepath from the tree element (item).
-     * @param item item of the tree
-     * @return filepath
-     */
-    private String getFilePath(CheckBoxTreeItem<String> item) {
-        StringBuffer filePath = new StringBuffer();
-        filePath.append(item.getValue());
-        while(item.getParent()!=null){
-            item = (CheckBoxTreeItem<String>) item.getParent();
-            if(!item.getValue().endsWith("\\")){
-                filePath.insert(0,item.getValue() + "\\");
-            }else if(!item.getValue().equals("Roots:" + File.separator)){
-                filePath.insert(0,item.getValue());
-            }
-        }
-        return filePath.toString();
-    }
+
 }

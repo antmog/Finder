@@ -3,6 +3,7 @@ package finder.view;
 import com.sun.org.apache.xml.internal.security.Init;
 import finder.model.ActionsInterface;
 import finder.util.Resources;
+import finder.view.SplitLeft.FileTreeController;
 import finder.view.SplitRight.SplitRightController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -43,7 +44,9 @@ public class InitialScreenController {
             // Creating sub-elements for the scene.
 
             // Loading left pane.
-            TreeView SplitLeft = FXMLLoader.load(this.getClass().getResource(Resources.FXMLleft + "FileTree.fxml"));
+            FXMLLoader treeLoader = new FXMLLoader(this.getClass().getResource(Resources.FXMLleft + "FileTree.fxml"));
+            treeLoader.setController(new FileTreeController(this.actionsInterface));
+            TreeView SplitLeft = treeLoader.load();
             // Loading right pane.
             FXMLLoader loader = new FXMLLoader(this.getClass().getResource(Resources.FXMLright + "SplitRight.fxml"));
             loader.setController(new SplitRightController(this.actionsInterface));

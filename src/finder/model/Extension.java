@@ -16,11 +16,11 @@ public class Extension {
         this.content = content;
     }
 
-    public String getLogin() {
+    public String getExtension() {
         return content;
     }
 
-    public void setLogin(String content) {
+    public void setExtension(String content) {
         this.content = content;
     }
 }
