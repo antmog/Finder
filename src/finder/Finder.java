@@ -15,14 +15,20 @@ import javafx.stage.Stage;
 import javafx.application.Platform;
 import finder.util.Resources;
 import org.apache.commons.io.FilenameUtils;
+import sun.reflect.generics.tree.Tree;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.FileNameMap;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Scanner;
 
 
 public class Finder extends Application {
@@ -134,7 +140,7 @@ public class Finder extends Application {
     /**
      * Searching files full action.
      **/
-    public void searchFiles() {
+    private void searchFiles() {
         // text from textArea
         StringBuffer sb = new StringBuffer(textArea.getText());
         // list for keeping search results, contains:
@@ -172,7 +178,6 @@ public class Finder extends Application {
                 searchInTree(child, listOfDirs, sb, extensions);
             }
         }
-
     }
 
     /**
@@ -188,11 +193,12 @@ public class Finder extends Application {
             for (File file : dir.listFiles()) {
                 if (!file.isDirectory()) {
                     //System.out.println(FilenameUtils.removeExtension(file.getName()));
-                    if (FilenameUtils.removeExtension(file.getName()).equals(sb.toString())) {
-                        for (Object object : extensions) {
-                            Extension extension = (Extension) object;
-                            if (FilenameUtils.getExtension(file.getName()).equals(extension.getExtension())) {
-                                //System.out.println(file.getName() + " == " + sb.toString());
+                    for (Object object : extensions) {
+                        Extension extension = (Extension) object;
+                        if (FilenameUtils.getExtension(file.getName()).equals(extension.getExtension())) {
+                            //Check if there is "sb" text in file
+                            if (searchInFile(file, sb)) {
+                                //add file if found text
                                 listOfDirs.add(file);
                             }
                         }
@@ -203,6 +209,30 @@ public class Finder extends Application {
             listOfDirs.add(dir);
         }
     }
+
+    /**
+     * Search text (sb) in File (file).
+     *
+     * @param file File.
+     * @param sb   Text.
+     * @return true if text found/false if didn't.
+     */
+    private boolean searchInFile(File file, StringBuffer sb) {
+        boolean find = false;
+        try (BufferedReader in = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = in.readLine()) != null) {
+                if (line.contains(sb.toString())) {
+                    find = true;
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return find;
+    }
+
 
     /**
      * Generate and show result tree.
@@ -260,7 +290,7 @@ public class Finder extends Application {
             } else {
                 // otherwise we check it manually
                 for (TreeItem<String> item : resultRootItem.getChildren()) {
-                    if (item.getValue().equals(getShortFileName(compareItemFile))){
+                    if (item.getValue().equals(getShortFileName(compareItemFile))) {
                         noRepeat = false;
                         break;
                     }
@@ -282,10 +312,19 @@ public class Finder extends Application {
      * @param item           Item to be added.
      */
     private void addSmartItem(TreeItem<String> resultRootItem, File item) {
-        if(item.isFile()){
-            System.out.println(item);
+        TreeItem<String> treeItem = new TreeItem<>(getShortFileName(item));
+        resultRootItem.getChildren().add(treeItem);
+
+        if (item.isFile()) {
+            //
+
+
+            // expands all parent directories of file found
+            while (treeItem.getParent() != null) {
+                treeItem = treeItem.getParent();
+                treeItem.setExpanded(true);
+            }
         }
-        resultRootItem.getChildren().add(new TreeItem<>(getShortFileName(item)));
     }
 
     /**
