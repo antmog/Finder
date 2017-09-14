@@ -2,41 +2,36 @@ package finder;
 
 import finder.model.ActionsInterface;
 import finder.model.Extension;
+import finder.model.CustomTab;
 import finder.view.InitialScreenController;
+import finder.view.SplitRight.SplitBottom.TabTemplateController;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.cell.CheckBoxTreeCell;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.application.Platform;
 import finder.util.Resources;
 import org.apache.commons.io.FilenameUtils;
-import sun.reflect.generics.tree.Tree;
 
 import java.io.*;
-import java.net.FileNameMap;
 import java.net.URL;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Scanner;
 
 
 public class Finder extends Application {
 
     private static Stage stage;
     private TextArea textArea;
-    private TreeView fileTree, resultFileTree;
+    private TreeView fileTree;
+    private TabPane resultTabPane;
+    private TreeView resultFileTree;
     private ObservableList<Extension> tableData;
+
     private ActionsInterface actionsInterface = new ActionsInterface() {
         @Override
         public Object load(URL url, Object controller) throws IOException {
@@ -51,57 +46,56 @@ public class Finder extends Application {
         }
 
         @Override
-        public void actionGetTextArea(TextArea text) {
+        public void actionNewTab(File file) {
+            if (file.isFile()) {
+                openFile(file);
+            }
+        }
+
+        @Override
+        public void actionSetTextArea(TextArea text) {
             textArea = text;
         }
 
         @Override
-        public void actionGetTree(TreeView tree) {
+        public void actionSetTree(TreeView tree) {
             fileTree = tree;
         }
 
         @Override
-        public void actionGetTableData(ObservableList<Extension> loadedTableData) {
+        public void actionSetTableData(ObservableList<Extension> loadedTableData) {
             tableData = loadedTableData;
         }
 
         @Override
-        public void getResultTree(TreeView fileTree) {
+        public void actionSetTabPane(TabPane tabPane) {
+            resultTabPane = tabPane;
+        }
+
+        @Override
+        public void setResultTree(TreeView fileTree) {
             resultFileTree = fileTree;
         }
 
-       /* @Override
-        public void createResultTree(File file, CheckBoxTreeItem<String> parent) {
-            if (file.isDirectory()) {
-                boolean isSelected = parent.isSelected();
-                if (file.listFiles() != null) {
-                    for (File f : file.listFiles()) {
-                        if (f.isDirectory()) {
-                            CheckBoxTreeItem<String> treeItem = new CheckBoxTreeItem<>(f.getName(), null, isSelected);
-                            //treeItem.setIndependent(true); uncomment to be able to select independent folder search (no subfolders selected etc - only direct folder.
-                            parent.getChildren().add(treeItem);
-                            createResultTree(f, treeItem);
-                        }
+        @Override
+        public String getFilePath(TreeItem<String> item) {
+            StringBuffer filePath = new StringBuffer();
+            try{
+                filePath.append(item.getValue());
+                while (item.getParent() != null) {
+                    item = item.getParent();
+                    if (!item.getValue().endsWith("\\")) {
+                        filePath.insert(0, item.getValue() + "\\");
+                    } else if (!item.getValue().equals("Roots:" + File.separator)) {
+                        filePath.insert(0, item.getValue());
                     }
                 }
-            }
-        }*/
 
-        @Override
-        public String getFilePath(CheckBoxTreeItem<String> item) {
-            StringBuffer filePath = new StringBuffer();
-            filePath.append(item.getValue());
-            while (item.getParent() != null) {
-                item = (CheckBoxTreeItem<String>) item.getParent();
-                if (!item.getValue().endsWith("\\")) {
-                    filePath.insert(0, item.getValue() + "\\");
-                } else if (!item.getValue().equals("Roots:" + File.separator)) {
-                    filePath.insert(0, item.getValue());
-                }
+            }catch(NullPointerException npe){
+                // warning - tree changed
             }
             return filePath.toString();
         }
-
     };
 
     @Override
@@ -113,6 +107,7 @@ public class Finder extends Application {
             Platform.exit();
             System.exit(0);
         });
+
 
         try {
             // Load main layout from fxml file.
@@ -130,7 +125,6 @@ public class Finder extends Application {
             ex.printStackTrace();
             System.exit(0);
         }
-
     }
 
     public static void main(String[] args) {
@@ -314,10 +308,8 @@ public class Finder extends Application {
     private void addSmartItem(TreeItem<String> resultRootItem, File item) {
         TreeItem<String> treeItem = new TreeItem<>(getShortFileName(item));
         resultRootItem.getChildren().add(treeItem);
-
         if (item.isFile()) {
-            //
-
+            //Highlight? tbd
 
             // expands all parent directories of file found
             while (treeItem.getParent() != null) {
@@ -328,7 +320,7 @@ public class Finder extends Application {
     }
 
     /**
-     * Getting short filename.
+     * Getting short filename (created cause root.getName() returns empty String).
      *
      * @param file file to be checked.
      * @return file.getAbsolutePath() if File file is root directory, otherwise: file.getName();
@@ -342,5 +334,26 @@ public class Finder extends Application {
         return file.getName();
     }
 
+    void openFile(File file) {
+        addTab(file);
+    }
+
+    private void addTab(File file) {
+        int numTabs = 1;
+        if (resultTabPane.getTabs() != null) {
+            numTabs = resultTabPane.getTabs().size()+1;
+        }
+        AnchorPane anchor;
+        CustomTab tab = new CustomTab(numTabs,file.getName(),resultTabPane,file);
+        try {
+            FXMLLoader anchorLoader = new FXMLLoader(this.getClass().getResource(Resources.FXMLbot + "TabTemplate.fxml"));
+            anchorLoader.setController(new TabTemplateController(tab));
+            anchor = anchorLoader.load();
+            tab.setContent(anchor);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

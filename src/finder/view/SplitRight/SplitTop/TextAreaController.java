@@ -18,6 +18,6 @@ public class TextAreaController {
     @FXML
     private void initialize()
     {
-        actionsInterface.actionGetTextArea(textSearchArea);
+        actionsInterface.actionSetTextArea(textSearchArea);
     }
 }

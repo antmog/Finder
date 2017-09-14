@@ -4,6 +4,6 @@
 
 <!-- xmlns:fx="http://javafx.com/fxml/1" -->
 
-<SplitPane fx:id="splitBottom" fx:controller="finder.view.SplitRight.SplitBottom.SplitBottomController" dividerPositions="0.25"  orientation="VERTICAL" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<SplitPane fx:id="splitBottom" dividerPositions="0.3"  orientation="VERTICAL" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
 
 </SplitPane>

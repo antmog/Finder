@@ -1,5 +1,6 @@
 package finder.view.SplitRight.SplitBottom;
 
+import finder.model.ActionsInterface;
 import finder.util.Resources;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +18,12 @@ import javafx.scene.layout.AnchorPane;
  */
 public class SplitBottomController {
 
+    private ActionsInterface actionsInterface;
+
+    public SplitBottomController(ActionsInterface actionsInterface){
+        this.actionsInterface = actionsInterface;
+    }
+
     @FXML
     private SplitPane splitBottom;
 
@@ -27,9 +34,9 @@ public class SplitBottomController {
             splitBottom.setOrientation(Orientation.HORIZONTAL);
 
             // Loading left pane.
-            TreeView SplitLeft = FXMLLoader.load(this.getClass().getResource(Resources.FXMLbot + "ResultFileTree.fxml"));
+            TreeView SplitLeft = actionsInterface.load(this.getClass().getResource(Resources.FXMLbot + "ResultFileTree.fxml"),new ResultFileTreeController(this.actionsInterface));
             // Loading right pane.
-            TabPane SplitRight = FXMLLoader.load(this.getClass().getResource(Resources.FXMLbot + "TabPane.fxml"));
+            TabPane SplitRight = actionsInterface.load(this.getClass().getResource(Resources.FXMLbot + "TabPane.fxml"),new TabsController(this.actionsInterface));
 
             splitBottom.getItems().addAll(SplitLeft, SplitRight);
         } catch (Exception e) {

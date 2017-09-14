@@ -5,4 +5,4 @@
 
 
 
-<TreeView fx:id = "fileTree" fx:controller = "finder.view.SplitRight.SplitBottom.ResultFileTreeController" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+<TreeView fx:id = "fileTree"  xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />

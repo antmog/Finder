@@ -30,8 +30,6 @@ public class SearchOptionsController {
     @FXML
     private TableColumn<Extension, String> extensionsColumn;
 
-    @FXML
-    private Button searchFilesButton;
 
     public SearchOptionsController(ActionsInterface actionsInterface){
         this.actionsInterface = actionsInterface;
@@ -80,8 +78,8 @@ public class SearchOptionsController {
      * Searching files (button action).
      */
     @FXML
-    public void searchFiles() {
-        actionsInterface.actionGetTableData(tableData);
+    private void searchFiles() {
+        actionsInterface.actionSetTableData(tableData);
         actionsInterface.actionClick();
     }
 }

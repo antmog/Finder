@@ -1,5 +1,6 @@
 package finder.view.SplitRight.SplitBottom;
 
+import finder.model.ActionsInterface;
 import finder.model.Extension;
 import finder.util.Resources;
 import javafx.collections.FXCollections;
@@ -17,20 +18,18 @@ import javafx.scene.control.TableColumn;
 
 public class TabsController {
 
-    @FXML
-    private TabPane tabPane ;
+    private ActionsInterface actionsInterface;
 
-    @FXML
-    private void addTab() {
-        int numTabs = tabPane.getTabs().size();
-        try {
-            Tab tab = new Tab("Tab "+(numTabs+1));
-            tabPane.getTabs().add(tab);
-            tab.setContent(FXMLLoader.load(this.getClass().getResource(Resources.FXML + "TabTemplate.fxml")));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public TabsController(ActionsInterface actionsInterface){
+        this.actionsInterface = actionsInterface;
     }
 
+    @FXML
+    private TabPane tabPane;
 
+
+    @FXML
+    private void initialize() {
+        actionsInterface.actionSetTabPane(tabPane);
+    }
 }

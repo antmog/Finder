@@ -2,6 +2,7 @@ package finder.view.SplitRight;
 
 import finder.model.ActionsInterface;
 import finder.util.Resources;
+import finder.view.SplitRight.SplitBottom.SplitBottomController;
 import finder.view.SplitRight.SplitTop.SplitTopController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -41,8 +42,7 @@ public class SplitRightController {
             SplitPane SplitTop = loader.load();
 
             // Loading BOTTOM part of interface.
-            SplitPane SplitBottom = FXMLLoader.load(this.getClass().getResource(Resources.FXMLbot + "SplitBottom.fxml"));
-
+            SplitPane SplitBottom = actionsInterface.load(this.getClass().getResource(Resources.FXMLbot + "SplitBottom.fxml"),new SplitBottomController(this.actionsInterface));
 
             splitRight.getItems().addAll(SplitTop, SplitBottom);
         }catch(Exception e){

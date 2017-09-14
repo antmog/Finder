@@ -57,13 +57,6 @@ public class InitialScreenController {
         }catch(Exception e){
             e.printStackTrace();
         }
-
-
-       /* searchFilesButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                System.out.println("CLICK CLICK");
-            }
-        });*/
     }
 
 }

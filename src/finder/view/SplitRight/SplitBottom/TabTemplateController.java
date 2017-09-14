@@ -15,6 +15,7 @@ public class TabTemplateController {
 
     private CustomTab tab;
     private long startLineNumber;
+    private long endOfFile = 0;
 
     @FXML
     private TextField showLinesCount;
@@ -22,7 +23,7 @@ public class TabTemplateController {
     @FXML
     private TextArea textArea;
 
-    public TabTemplateController(CustomTab tab){
+    public TabTemplateController(CustomTab tab) {
         this.tab = tab;
         startLineNumber = 0;
     }
@@ -31,34 +32,72 @@ public class TabTemplateController {
     private void initialize() {
         System.out.println("we init");
         showLinesCount.setText("10");
-        tab.setElements(textArea,showLinesCount);
+        tab.setElements(textArea, showLinesCount);
         showText();
     }
 
-    private void showText(){
+    private void showText() {
+        boolean isInRange = false;
+        // if step is too big (bigger than file size - legit for small files)
+        if ((endOfFile > 0) && endOfFile < tab.getShowLinesCount()) {
+            optimizeStep();
+        }
         tab.getTextArea().setText("");
         try (BufferedReader in = new BufferedReader(new FileReader(tab.getFile()))) {
-            int linesCount = 0;
+            long linesCount = 0;
             String line;
             while ((line = in.readLine()) != null) {
-                if(linesCount==startLineNumber){
+                System.out.println("StartLineNumber" + startLineNumber);
+                System.out.println(linesCount);
+                if (linesCount == startLineNumber) {
+                    isInRange = true;
                     System.out.println(line);
+                    linesCount++;
                     tab.getTextArea().appendText(line);
                     tab.getTextArea().appendText(System.lineSeparator());
-                    for( int i = 1 ; i < tab.getShowLinesCount() ; i++ ){
-                        if((line = in.readLine()) != null){
-                            System.out.println(line);
+                    for (int i = 1; i < tab.getShowLinesCount(); i++) {
+                        if ((line = in.readLine()) != null) {
+                            linesCount++;
                             tab.getTextArea().appendText(line);
                             tab.getTextArea().appendText(System.lineSeparator());
+                        } else {
+                            // If step is good but its the end of file.
+                            optimizeStep(linesCount);
+                            break;
                         }
                     }
                     break;
                 }
                 linesCount++;
             }
+            // If step was too big but still smaller than filesize.
+            if (!isInRange) {
+                optimizeStep(linesCount);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
+
+    /**
+     * Setting step of reading file to default, moving marker to (endOfFile-DEFAULT_STEP)
+     */
+    private void optimizeStep(){
+        tab.setShowLinesCountDefault();
+        startLineNumber = endOfFile - tab.getShowLinesCount();
+    }
+
+    /**
+     * Setting end of file;
+     * Setting step of reading file to default, moving marker to (endOfFile-DEFAULT_STEP);
+     * Reloading file view.
+     * @param linesCount
+     */
+    private void optimizeStep(long linesCount){
+        endOfFile = linesCount;
+        optimizeStep();
+        showText();
     }
 
     @FXML
@@ -80,20 +119,24 @@ public class TabTemplateController {
     private void close() {
         tab.getTabPane().getTabs().remove(tab.getTab());
     }
+
     @FXML
     private void up() {
-        startLineNumber -= 10;
-        if(startLineNumber<0){
-            startLineNumber=0;
+        startLineNumber -= tab.getShowLinesCount();
+        if (startLineNumber < 0) {
+            startLineNumber = 0;
         }
         showText();
     }
 
     @FXML
     private void down() {
-        startLineNumber += 10;
-        if(startLineNumber<0){
-            startLineNumber=Long.MAX_VALUE-tab.getShowLinesCount();
+        startLineNumber += tab.getShowLinesCount();
+        if (startLineNumber < 0) {
+            startLineNumber = Long.MAX_VALUE - tab.getShowLinesCount();
+        }
+        if ((endOfFile > 0) && (startLineNumber >= endOfFile)) {
+            startLineNumber = endOfFile - tab.getShowLinesCount();
         }
         showText();
     }
