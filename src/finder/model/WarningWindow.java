@@ -10,11 +10,11 @@ import javafx.stage.Stage;
  * Created by antmog on 14.09.2017.
  */
 public class WarningWindow {
-    public WarningWindow(String warningText){
+    public WarningWindow(String warningText) {
         try {
             Stage stage = new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getResource(Resources.FXML + "WarningWindow.fxml"));
-            loader.setController(new WarningWindowController(warningText,stage));
+            loader.setController(new WarningWindowController(warningText, stage));
 
             Scene scene = new Scene(loader.load());
 
