@@ -1,21 +1,30 @@
 package finder.view.SplitRight.SplitBottom;
 
-import com.sun.javafx.embed.HostDragStartListener;
-import finder.model.CustomTab;
+import finder.model.*;
+import finder.util.SearchTask;
+import finder.util.ShowTask;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.util.concurrent.Executors;
 
-/**
- * Created by antmog on 13.09.2017.
- */
 public class TabTemplateController {
 
     private CustomTab tab;
-    private long startLineNumber;
-    private long endOfFile = 0;
+    private TaskExecutor exec;
+    private CustomRandomAccessFile cRaf;
+    private CustomRandomAccessFile cRafShow;
+
+    private int bufferSize;
+
+
+    @FXML
+    private TextField numberOfRow;
+
+    @FXML
+    private Label lineCount;
 
     @FXML
     private TextField showLinesCount;
@@ -23,124 +32,173 @@ public class TabTemplateController {
     @FXML
     private TextArea textArea;
 
+    @FXML
+    private TextArea rowNumbers;
+
+    @FXML
+    private TextArea searchTextArea;
+
     public TabTemplateController(CustomTab tab) {
         this.tab = tab;
-        startLineNumber = 0;
+        tab.setStartLineNumber(0);
+        tab.setSearchPointer(0);
     }
 
     @FXML
     private void initialize() {
-        System.out.println("we init");
-        showLinesCount.setText("10");
-        tab.setElements(textArea, showLinesCount);
-        showText();
-    }
-
-    private void showText() {
-        boolean isInRange = false;
-        // if step is too big (bigger than file size - legit for small files)
-        if ((endOfFile > 0) && endOfFile < tab.getShowLinesCount()) {
-            optimizeStep();
-        }
-        tab.getTextArea().setText("");
-        try (BufferedReader in = new BufferedReader(new FileReader(tab.getFile()))) {
-            long linesCount = 0;
-            String line;
-            while ((line = in.readLine()) != null) {
-                System.out.println("StartLineNumber" + startLineNumber);
-                System.out.println(linesCount);
-                if (linesCount == startLineNumber) {
-                    isInRange = true;
-                    System.out.println(line);
-                    linesCount++;
-                    tab.getTextArea().appendText(line);
-                    tab.getTextArea().appendText(System.lineSeparator());
-                    for (int i = 1; i < tab.getShowLinesCount(); i++) {
-                        if ((line = in.readLine()) != null) {
-                            linesCount++;
-                            tab.getTextArea().appendText(line);
-                            tab.getTextArea().appendText(System.lineSeparator());
-                        } else {
-                            // If step is good but its the end of file.
-                            optimizeStep(linesCount);
-                            break;
-                        }
-                    }
-                    break;
-                }
-                linesCount++;
-            }
-            // If step was too big but still smaller than filesize.
-            if (!isInRange) {
-                optimizeStep(linesCount);
-            }
+        exec = new TaskExecutor(Executors.newCachedThreadPool());
+        tab.setElements(textArea, showLinesCount, rowNumbers, lineCount);
+        searchTextArea.setText(tab.getSearchText());
+        // analyzing file
+        try (CustomRandomAccessFile cRaf = new CustomRandomAccessFile(tab.getFile(), "r")) {
+            cRaf.seek(0);
+            tab.setLineLength(cRaf.readLine().length() + 1);
+            tab.setLineCount(cRaf.length() / (tab.getLineLength() + 1));
+            // calculating buffer size according to line length
+            bufferSize = (8192 / (Math.toIntExact(tab.getLineLength()) + 1)) * Math.toIntExact(tab.getLineLength() + 1);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        showText1();
     }
 
     /**
-     * Setting step of reading file to default, moving marker to (endOfFile-DEFAULT_STEP)
+     * Display file content in TextArea
      */
-    private void optimizeStep(){
-        tab.setShowLinesCountDefault();
-        startLineNumber = endOfFile - tab.getShowLinesCount();
+    private void showText1() {
+        // setting tab name to "Loading..."
+        tab.setLoading();
+        try {
+            cRafShow = new CustomRandomAccessFile(tab.getFile(), "r", bufferSize);
+            exec.getExecutor().execute(new Thread(new ShowTask(tab, cRafShow)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void searchForward() {
+        search(SearchDirection.FORWARD);
+    }
+
+    @FXML
+    private void searchBack() {
+        search(SearchDirection.BACK);
     }
 
     /**
-     * Setting end of file;
-     * Setting step of reading file to default, moving marker to (endOfFile-DEFAULT_STEP);
-     * Reloading file view.
-     * @param linesCount
+     * Searching text in file.
      */
-    private void optimizeStep(long linesCount){
-        endOfFile = linesCount;
-        optimizeStep();
-        showText();
+    private void search(SearchDirection direction) {
+        if (tab.isFree()) {
+            tab.setDirection(direction);
+            searchTextArea.setText(tab.getSearchText());
+            // setting tab name to "Loading..."
+            tab.setLoading();
+            try {
+                if (tab.getDirection() == SearchDirection.BACK) {
+                    // buffer length = line length for BACK search
+                    // cause readLineCustom() uses pointer parameter deep inside its class and BACK search logic
+                    // in this app realised on top levels so when buffer = line length , buffer in readLineCustom()
+                    // refreshes after 1 iteration of readLineCustom().
+                    // because of that method works much slower
+                    cRaf = new CustomRandomAccessFile(tab.getFile(), "r", Math.toIntExact(tab.getLineLength() + 1));
+                } else {
+                    cRaf = new CustomRandomAccessFile(tab.getFile(), "r", bufferSize);
+                }
+                exec.getExecutor().execute(new Thread(new SearchTask(tab, cRaf, exec)));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            new WarningWindow("Cant operate with text while information is loading.");
+        }
     }
 
-    @FXML
-    private void searchNext() {
-
-    }
 
     @FXML
-    private void searchPrevious() {
-
+    private void goTo() {
+        if (tab.isFree()) {
+            tab.setStartLineNumber(Long.parseLong(numberOfRow.getText()));
+            tab.setSearchPointer(tab.getStartLineNumber());
+            showText1();
+        } else {
+            new WarningWindow("Cant operate with text while information is loading.");
+        }
     }
 
     @FXML
     private void selectAll() {
-
+        if (tab.isFree()) {
+            tab.getTextArea().selectAll();
+        } else {
+            new WarningWindow("Wait for text to be loaded.");
+        }
     }
 
     @FXML
     private void close() {
         tab.getTabPane().getTabs().remove(tab.getTab());
+        try {
+            if (cRaf != null) {
+                cRaf.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
+    /**
+     * Scroll file content up.
+     */
     @FXML
     private void up() {
-        startLineNumber -= tab.getShowLinesCount();
-        if (startLineNumber < 0) {
-            startLineNumber = 0;
+        if (tab.isFree()) {
+            tab.setShowLinesCountFromField(showLinesCount.getText());
+            tab.setStartLineNumber(tab.getStartLineNumber() - tab.getShowLinesCount());
+            if (tab.getStartLineNumber() < 0) {
+                tab.setStartLineNumber(0);
+            }
+            tab.setSearchPointer(tab.getStartLineNumber());
+            showText1();
+        } else {
+            new WarningWindow("Cant operate with text while information is loading.");
         }
-        showText();
     }
 
+    /**
+     * Scroll file content down.
+     */
     @FXML
     private void down() {
-        startLineNumber += tab.getShowLinesCount();
-        if (startLineNumber < 0) {
-            startLineNumber = Long.MAX_VALUE - tab.getShowLinesCount();
+        if (tab.isFree()) {
+            tab.setShowLinesCountFromField(showLinesCount.getText());
+            tab.setStartLineNumber(tab.getStartLineNumber() + tab.getShowLinesCount());
+            if (tab.getStartLineNumber() < 0) {
+                tab.setStartLineNumber(Long.MAX_VALUE - tab.getShowLinesCount());
+            }
+            tab.setSearchPointer(tab.getStartLineNumber());
+            showText1();
+        } else {
+            new WarningWindow("Cant operate with text while information is loading.");
         }
-        if ((endOfFile > 0) && (startLineNumber >= endOfFile)) {
-            startLineNumber = endOfFile - tab.getShowLinesCount();
-        }
-        showText();
     }
 
+
+    @FXML
+    private void changeSearchText() {
+        if (tab.isFree()) {
+            if (searchTextArea.getText().equals("")) {
+                new WarningWindow("You have to enter search text.");
+                searchTextArea.setText(tab.getSearchText());
+            } else {
+                tab.setSearchText(searchTextArea.getText());
+            }
+        } else {
+            new WarningWindow("Cant operate with text while information is loading.");
+        }
+
+    }
 
 }
 

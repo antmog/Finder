@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-
-<SplitPane fx:id="splitTop" dividerPositions="0.75"   xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<?import javafx.scene.control.SplitPane?>
+<SplitPane fx:id="splitTop" dividerPositions="0.75" xmlns:fx="http://javafx.com/fxml/1"
+           xmlns="http://javafx.com/javafx/8">
 
 </SplitPane>

@@ -1,22 +1,14 @@
 package finder.view;
 
-import com.sun.org.apache.xml.internal.security.Init;
-import finder.model.ActionsInterface;
+import finder.util.FinderActionInterface;
 import finder.util.Resources;
 import finder.view.SplitLeft.FileTreeController;
 import finder.view.SplitRight.SplitRightController;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TreeView;
-import javafx.scene.layout.AnchorPane;
-
-import javax.swing.*;
 
 /**
  * Controller of main layout (initial screen).
@@ -24,19 +16,19 @@ import javax.swing.*;
  */
 public class InitialScreenController {
 
-    private ActionsInterface actionsInterface;
+    private FinderActionInterface finderActionInterface;
 
     @FXML
     private SplitPane mainSplitPane;
 
-    public InitialScreenController(ActionsInterface actionsInterface){
-        this.actionsInterface = actionsInterface;
+    public InitialScreenController(FinderActionInterface finderActionInterface) {
+        this.finderActionInterface = finderActionInterface;
     }
 
     @FXML
     private void initialize() {
 
-        try{
+        try {
             // Main layout:
             mainSplitPane.setOrientation(Orientation.HORIZONTAL);
 
@@ -45,16 +37,16 @@ public class InitialScreenController {
 
             // Loading left pane.
             FXMLLoader treeLoader = new FXMLLoader(this.getClass().getResource(Resources.FXMLleft + "FileTree.fxml"));
-            treeLoader.setController(new FileTreeController(this.actionsInterface));
+            treeLoader.setController(new FileTreeController(this.finderActionInterface));
             TreeView SplitLeft = treeLoader.load();
             // Loading right pane.
             FXMLLoader loader = new FXMLLoader(this.getClass().getResource(Resources.FXMLright + "SplitRight.fxml"));
-            loader.setController(new SplitRightController(this.actionsInterface));
+            loader.setController(new SplitRightController(this.finderActionInterface));
             SplitPane SplitRight = loader.load();
 
             // Adding top and bottom parts to main layout.
             mainSplitPane.getItems().addAll(SplitLeft, SplitRight);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

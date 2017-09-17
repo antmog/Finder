@@ -2,7 +2,6 @@ package finder.util;
 
 /**
  * Resources for the project.
- * Created by antmog on 04.09.2017.
  */
 public final class Resources {
 
@@ -15,5 +14,6 @@ public final class Resources {
     public static final String IMG = "/finder/util/img/";
     public static final String CSS = "/finder/util/css/";
 
-    private Resources() {}
+    private Resources() {
+    }
 }

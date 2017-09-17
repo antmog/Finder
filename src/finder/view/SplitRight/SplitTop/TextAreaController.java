@@ -1,6 +1,6 @@
 package finder.view.SplitRight.SplitTop;
 
-import finder.model.ActionsInterface;
+import finder.util.FinderActionInterface;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 
@@ -9,15 +9,14 @@ public class TextAreaController {
     @FXML
     private TextArea textSearchArea;
 
-    private ActionsInterface actionsInterface;
+    private FinderActionInterface finderActionInterface;
 
-    public TextAreaController(ActionsInterface actionsInterface){
-        this.actionsInterface = actionsInterface;
+    public TextAreaController(FinderActionInterface finderActionInterface) {
+        this.finderActionInterface = finderActionInterface;
     }
 
     @FXML
-    private void initialize()
-    {
-        actionsInterface.actionSetTextArea(textSearchArea);
+    private void initialize() {
+        finderActionInterface.actionSetTextArea(textSearchArea);
     }
 }

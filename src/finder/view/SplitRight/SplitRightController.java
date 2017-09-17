@@ -1,18 +1,11 @@
 package finder.view.SplitRight;
 
-import finder.model.ActionsInterface;
+import finder.util.FinderActionInterface;
 import finder.util.Resources;
 import finder.view.SplitRight.SplitBottom.SplitBottomController;
 import finder.view.SplitRight.SplitTop.SplitTopController;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Orientation;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.SplitPane;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TreeView;
-import javafx.scene.layout.AnchorPane;
 
 
 /**
@@ -21,31 +14,28 @@ import javafx.scene.layout.AnchorPane;
  */
 public class SplitRightController {
 
-    private ActionsInterface actionsInterface;
+    private FinderActionInterface finderActionInterface;
 
     @FXML
     private SplitPane splitRight;
 
-    public SplitRightController(ActionsInterface actionsInterface){
-        this.actionsInterface = actionsInterface;
+    public SplitRightController(FinderActionInterface finderActionInterface) {
+        this.finderActionInterface = finderActionInterface;
     }
 
     @FXML
     private void initialize() {
-        this.actionsInterface = actionsInterface;
-        try{
+        try {
             // Initialising RIGHT part of interface.
 
             // Loading TOP part of interface.
-            FXMLLoader loader = new FXMLLoader(this.getClass().getResource(Resources.FXMLtop + "SplitTop.fxml"));
-            loader.setController(new SplitTopController(this.actionsInterface));
-            SplitPane SplitTop = loader.load();
+            SplitPane SplitTop = finderActionInterface.load(this.getClass().getResource(Resources.FXMLtop + "SplitTop.fxml"), new SplitTopController(this.finderActionInterface));
 
             // Loading BOTTOM part of interface.
-            SplitPane SplitBottom = actionsInterface.load(this.getClass().getResource(Resources.FXMLbot + "SplitBottom.fxml"),new SplitBottomController(this.actionsInterface));
+            SplitPane SplitBottom = finderActionInterface.load(this.getClass().getResource(Resources.FXMLbot + "SplitBottom.fxml"), new SplitBottomController(this.finderActionInterface));
 
             splitRight.getItems().addAll(SplitTop, SplitBottom);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
