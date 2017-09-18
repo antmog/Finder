@@ -9,7 +9,11 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
+import javax.swing.text.Style;
 
 
 public class Finder extends Application {
@@ -23,6 +27,7 @@ public class Finder extends Application {
     public void start(Stage stage) throws Exception {
         Finder.stage = stage;
         Finder.stage.setTitle("Finder");
+        Finder.stage.initStyle(StageStyle.UNIFIED);
         Finder.stage.getIcons().add(new Image(getClass().getResource(Resources.IMG + "Icon.png").toString()));
         Finder.stage.setOnCloseRequest(event -> {
             Platform.exit();
@@ -46,9 +51,10 @@ public class Finder extends Application {
         try {
             // Load main layout from fxml file.
             SplitPane view = finderActionInterface.load(getClass().getResource(Resources.FXML + "InitialScreen.fxml"), new InitialScreenController(finderActionInterface));
-
+            view.getStylesheets().add(Resources.CSS + "Finder.css");
             // Shows the scene containing the main layout.
             Scene scene = new Scene(view);
+            scene.getStylesheets().add(Resources.CSS + "MainWindow.css");
             stage.setScene(scene);
             stage.show();
 

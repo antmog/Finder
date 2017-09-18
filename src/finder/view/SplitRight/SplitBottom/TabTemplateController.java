@@ -1,7 +1,7 @@
 package finder.view.SplitRight.SplitBottom;
 
 import finder.model.*;
-import finder.util.SearchTask;
+import finder.util.SearchInFileTask;
 import finder.util.ShowTask;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -106,7 +106,7 @@ public class TabTemplateController {
                 } else {
                     cRaf = new CustomRandomAccessFile(tab.getFile(), "r", bufferSize);
                 }
-                exec.getExecutor().execute(new Thread(new SearchTask(tab, cRaf, exec)));
+                exec.getExecutor().execute(new Thread(new SearchInFileTask(tab, cRaf, exec)));
             } catch (Exception e) {
                 e.printStackTrace();
             }

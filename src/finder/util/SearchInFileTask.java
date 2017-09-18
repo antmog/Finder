@@ -10,12 +10,12 @@ import java.io.IOException;
 /**
  * Task (for thread): search text in file.
  */
-public class SearchTask extends Task<Void> {
+public class SearchInFileTask extends Task<Void> {
     private CustomRandomAccessFile cRaf;
     private CustomTab tab;
     private TaskExecutor exec;
 
-    public SearchTask(CustomTab tab, CustomRandomAccessFile cRaf, TaskExecutor exec) {
+    public SearchInFileTask(CustomTab tab, CustomRandomAccessFile cRaf, TaskExecutor exec) {
         this.cRaf = cRaf;
         this.tab = tab;
         this.exec = exec;
@@ -39,7 +39,7 @@ public class SearchTask extends Task<Void> {
                 // setting first displayed line as number of line of found element
                 tab.setStartLineNumber(tab.getSearchPointer());
                 tab.searchSucceed();
-                // cheking limit of lines
+                // checking limit of lines
                 if ((tab.getDirection() == SearchDirection.FORWARD) && (tab.getSearchPointer() < tab.getLineCount() - 1)) {
                     tab.incSearchPointer();
                 }

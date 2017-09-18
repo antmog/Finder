@@ -1,0 +1,51 @@
+.searchOptionsBlock{
+    -fx-background-color: rgba(39, 39, 38, 0.95);
+}
+.label{
+    -fx-text-fill: #a5a5a4;
+}
+.button{
+    -fx-background-color: rgb(143, 143, 142);
+}
+.text-field{
+    -fx-background-color: rgba(185, 185, 184, 0.69);
+}
+
+
+
+.table-view.content{
+    -fx-background-color: rgb(182, 50, 34);
+}
+
+.table-view .column-header-background{
+    -fx-background-color: linear-gradient(#131313 0%, #424141 100%);
+}
+
+.table-view .column-header-background .label{
+    -fx-background-color: transparent;
+    -fx-text-fill: #a5a5a4;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+}
+
+.table-row-cell{
+    -fx-text-background-color: #0c0c0b;
+    -fx-background-color: -fx-table-cell-border-color, #616161;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em; /* 0 */
+}
+
+.table-row-cell:odd{
+    -fx-text-background-color: #a5a5a4;
+    -fx-background-color: -fx-table-cell-border-color, #424242;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em; /* 0 */
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #001a46;
+    -fx-background-insets: 0;
+    -fx-background-radius: 1;
+}

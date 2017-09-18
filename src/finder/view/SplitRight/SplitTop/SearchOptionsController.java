@@ -52,6 +52,7 @@ public class SearchOptionsController {
 
         // Adding data to table.
         tableExtensions.setItems(tableData);
+        tableExtensions.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
 
     /**

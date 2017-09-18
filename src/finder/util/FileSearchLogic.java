@@ -15,9 +15,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class FileSearchLogic {
-
-    FinderInstance finderInstance;
-
     /**
      * Searching files full action.
      **/
@@ -89,7 +86,7 @@ public class FileSearchLogic {
                         String extension = (String) object;
                         if (FilenameUtils.getExtension(file.getName()).equals(extension)) {
                             //Check if there is "sb" text in file
-                            if (searchInFile(file, sb)) {
+                            if (searchInFile1(file, sb)) {
                                 //add file if found text
                                 listOfDirs.add(file);
                             }
@@ -110,7 +107,7 @@ public class FileSearchLogic {
      * @param sb   Text.
      * @return true if text found/false if didn't.
      */
-    private static boolean searchInFile(File file, StringBuffer sb) {
+    private static boolean searchInFile1(File file, StringBuffer sb) {
         boolean find = false;
         try (BufferedReader in = new BufferedReader(new FileReader(file))) {
             String line;

@@ -1,32 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.AnchorPane?>
-<AnchorPane prefHeight="338.0" prefWidth="494.0" stylesheets="/finder/util/css/TabTemplate.css"
-            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+
+<AnchorPane prefHeight="338.0" prefWidth="494.0" stylesheets="/finder/util/css/TabTemplate.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#searchBack" prefHeight="25.0"
-                prefWidth="44.0" text="Back"/>
-        <Button layoutX="63.0" layoutY="14.0" mnemonicParsing="false" onAction="#searchForward" prefHeight="25.0"
-                prefWidth="62.0" text="Forward"/>
-        <Button layoutX="129.0" layoutY="14.0" mnemonicParsing="false" onAction="#selectAll" text="Select all"/>
-        <TextArea fx:id="textArea" layoutX="86.0" layoutY="50.0" prefHeight="235.0" prefWidth="324.0"/>
-        <Button layoutX="420.0" layoutY="14.0" mnemonicParsing="false" onAction="#close" prefHeight="25.0"
-                prefWidth="62.0" text="Close"/>
-        <Button fx:id="up" layoutX="424.0" layoutY="50.0" mnemonicParsing="false" onAction="#up" prefHeight="32.0"
-                prefWidth="52.0"/>
-        <Button fx:id="down" layoutX="424.0" layoutY="253.0" mnemonicParsing="false" onAction="#down" prefHeight="32.0"
-                prefWidth="52.0"/>
-        <TextField fx:id="showLinesCount" layoutX="424.0" layoutY="157.0" prefHeight="25.0" prefWidth="52.0"/>
-        <Label layoutX="420.0" layoutY="134.0" text="rows count:"/>
-        <TextArea fx:id="searchTextArea" layoutX="14.0" layoutY="294.0" prefHeight="25.0" prefWidth="396.0"/>
-        <Button layoutX="420.0" layoutY="301.0" mnemonicParsing="false" onAction="#changeSearchText" prefHeight="25.0"
-                prefWidth="62.0" text="Change"/>
-        <TextArea fx:id="rowNumbers" layoutX="14.0" layoutY="51.0" prefHeight="235.0" prefWidth="63.0"/>
-        <TextField fx:id="numberOfRow" layoutX="274.0" layoutY="14.0" prefHeight="25.0" prefWidth="74.0"/>
-        <Button onAction="#goTo" layoutX="358.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0"
-                prefWidth="52.0" text="Go"/>
-        <Label fx:id="lineCount" layoutX="196.0" layoutY="18.0" prefHeight="17.0" prefWidth="63.0" text="Label"/>
+        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#searchBack" prefHeight="25.0" prefWidth="44.0" text="Back" />
+        <Button layoutX="63.0" layoutY="14.0" mnemonicParsing="false" onAction="#searchForward" prefHeight="25.0" prefWidth="62.0" text="Forward" />
+        <Button layoutX="129.0" layoutY="14.0" mnemonicParsing="false" onAction="#selectAll" text="Select all" />
+        <TextArea fx:id="textArea" layoutX="93.0" layoutY="50.0" prefHeight="235.0" prefWidth="317.0" />
+        <Button layoutX="420.0" layoutY="14.0" mnemonicParsing="false" onAction="#close" prefHeight="25.0" prefWidth="62.0" text="Close" />
+        <Button fx:id="up" layoutX="424.0" layoutY="50.0" mnemonicParsing="false" onAction="#up" prefHeight="32.0" prefWidth="52.0" />
+        <Button fx:id="down" layoutX="424.0" layoutY="253.0" mnemonicParsing="false" onAction="#down" prefHeight="32.0" prefWidth="52.0" />
+        <TextField fx:id="showLinesCount" layoutX="424.0" layoutY="157.0" prefHeight="25.0" prefWidth="52.0" />
+        <Label layoutX="420.0" layoutY="134.0" text="rows count:" />
+        <TextArea fx:id="searchTextArea" layoutX="14.0" layoutY="294.0" prefHeight="25.0" prefWidth="396.0" />
+        <Button layoutX="420.0" layoutY="301.0" mnemonicParsing="false" onAction="#changeSearchText" prefHeight="25.0" prefWidth="62.0" text="Change" />
+        <TextArea fx:id="rowNumbers" layoutX="14.0" layoutY="51.0" prefHeight="235.0" prefWidth="74.0" />
+        <TextField fx:id="numberOfRow" layoutX="274.0" layoutY="14.0" prefHeight="25.0" prefWidth="74.0" />
+        <Button layoutX="358.0" layoutY="14.0" mnemonicParsing="false" onAction="#goTo" prefHeight="25.0" prefWidth="52.0" text="Go" />
+        <Label fx:id="lineCount" layoutX="196.0" layoutY="18.0" prefHeight="17.0" prefWidth="63.0" text="Label" />
     </children>
 </AnchorPane>

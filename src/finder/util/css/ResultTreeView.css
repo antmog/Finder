@@ -1,0 +1,31 @@
+.tree-view{
+    -fx-background-color: rgba(39, 39, 38, 0.95);
+}
+.tree-cell{
+    -fx-background-color: rgba(39, 39, 38, 0.95);
+    -fx-text-fill: #838382;
+    -fx-font-size: 13px;
+    -fx-font-family: "Times New Roman", Helvetica, Sans-serif;
+}
+.tree-cell:expanded{
+    -fx-background-color: rgba(39, 39, 38, 0.95);
+    -fx-text-fill: #838382;
+    -fx-font-size: 14px;
+    -fx-font-family: "Times New Roman", Helvetica, Sans-serif;
+}
+.tree-cell:hover {
+    -fx-background-color: rgba(7, 7, 6, 0.97);
+}
+.tree-cell .tree-disclosure-node .arrow {
+    -fx-shape: null;
+    -fx-background-color: null;
+    -fx-background-size:cover;
+    -fx-padding: 6px;
+    -fx-background-image: url("../img/arrowMinus.png");
+}
+.tree-cell .check-box .box{
+    -fx-background-color: rgb(221, 221, 220);
+    -fx-padding: 0px,0px,0px,0px;
+    -fx-pref-height: 15px;
+    -fx-pref-width: 15px;
+}

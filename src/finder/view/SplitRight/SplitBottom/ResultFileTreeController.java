@@ -3,6 +3,7 @@ package finder.view.SplitRight.SplitBottom;
 import finder.model.ResultFileTree;
 import finder.util.FinderActionInterface;
 import finder.util.OtherLogic;
+import finder.util.Resources;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -25,6 +26,7 @@ public class ResultFileTreeController {
     private void initialize() {
         // creating new ResultFileTree object (containing current fileTree)
         resultFileTree = new ResultFileTree(fileTree);
+        fileTree.getStylesheets().add(Resources.CSS + "ResultTreeView.css");
         finderActionInterface.setResultTree(resultFileTree);
         // selection listener - opens file from result tree
         fileTree.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {

@@ -3,7 +3,7 @@
 <!-- xmlns:fx="http://javafx.com/fxml/1" -->
 
 <?import javafx.scene.control.SplitPane?>
-<SplitPane fx:id="splitBottom" dividerPositions="0.3" orientation="VERTICAL" xmlns="http://javafx.com/javafx/8"
+<SplitPane fx:id="splitBottom" dividerPositions="0.275" orientation="VERTICAL" xmlns="http://javafx.com/javafx/8"
            xmlns:fx="http://javafx.com/fxml/1">
 
 </SplitPane>

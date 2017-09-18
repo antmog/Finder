@@ -32,19 +32,21 @@ public class SplitTopController {
             // Search text area.
             TextArea textArea = finderActionInterface.load(this.getClass().getResource(Resources.FXMLtop + "TextArea.fxml"), new TextAreaController(this.finderActionInterface));
             // Search options block.
-            Node SearchOptionsBlock = finderActionInterface.load(this.getClass().getResource(Resources.FXMLtop + "SearchOptionsBlock.fxml"), new SearchOptionsController(this.finderActionInterface));
+            AnchorPane searchOptionsBlock = finderActionInterface.load(this.getClass().getResource(Resources.FXMLtop + "SearchOptionsBlock.fxml"), new SearchOptionsController(this.finderActionInterface));
+            searchOptionsBlock.getStylesheets().add(Resources.CSS + "SearchOptionsBlock.css");
 
             // Wrapping search options block into Anchor Pane (for better visualisation).
-            AnchorPane rightAnchor = new AnchorPane();
-            rightAnchor.getChildren().add(SearchOptionsBlock);
-            AnchorPane.setTopAnchor(SearchOptionsBlock, 5.0);
+            //AnchorPane rightAnchor = new AnchorPane();
+            //rightAnchor.getChildren().add(SearchOptionsBlock);
+            //AnchorPane.setTopAnchor(SearchOptionsBlock, 5.0);
+
 
             // Setting searchOptionsBlock for FinderInstance
-            finderActionInterface.setSearchOptionsBlock(rightAnchor);
+            finderActionInterface.setSearchOptionsBlock(searchOptionsBlock);
 
             // Filling top part of interface with sub-elements.
             splitTop.setOrientation(Orientation.HORIZONTAL);
-            splitTop.getItems().addAll(textArea, rightAnchor);
+            splitTop.getItems().addAll(textArea, searchOptionsBlock);
 
 
         } catch (Exception e) {

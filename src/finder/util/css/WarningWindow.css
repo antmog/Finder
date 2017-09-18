@@ -1,5 +1,9 @@
 #warningMessage {
+    -fx-text-fill: #a5a5a4;
     -fx-font-size: 12px;
     -fx-font-family: "Arial Black";
     -fx-alignment: center;
+}
+.warning{
+    -fx-background-color: rgba(39, 39, 38, 0.95);
 }

@@ -18,6 +18,9 @@ public class ShowTask extends Task<Void> {
         this.cRaf = cRaf;
         this.tab = tab;
     }
+    public ShowTask() {
+
+    }
 
     public Void call() throws IOException {
         tab.clearRowNumbersBuffer();

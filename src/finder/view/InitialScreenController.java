@@ -36,13 +36,10 @@ public class InitialScreenController {
             // Creating sub-elements for the scene.
 
             // Loading left pane.
-            FXMLLoader treeLoader = new FXMLLoader(this.getClass().getResource(Resources.FXMLleft + "FileTree.fxml"));
-            treeLoader.setController(new FileTreeController(this.finderActionInterface));
-            TreeView SplitLeft = treeLoader.load();
+            TreeView SplitLeft = finderActionInterface.load(this.getClass().getResource(Resources.FXMLleft + "FileTree.fxml"), new FileTreeController(this.finderActionInterface));
+            SplitLeft.getStylesheets().add(Resources.CSS + "TreeView.css");
             // Loading right pane.
-            FXMLLoader loader = new FXMLLoader(this.getClass().getResource(Resources.FXMLright + "SplitRight.fxml"));
-            loader.setController(new SplitRightController(this.finderActionInterface));
-            SplitPane SplitRight = loader.load();
+            SplitPane SplitRight = finderActionInterface.load(this.getClass().getResource(Resources.FXMLright + "SplitRight.fxml"), new SplitRightController(this.finderActionInterface));
 
             // Adding top and bottom parts to main layout.
             mainSplitPane.getItems().addAll(SplitLeft, SplitRight);
