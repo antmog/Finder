@@ -1,11 +1,9 @@
 package finder.view;
 
-import finder.util.FinderActionInterface;
 import finder.util.Resources;
 import finder.view.SplitLeft.FileTreeController;
 import finder.view.SplitRight.SplitRightController;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TreeView;

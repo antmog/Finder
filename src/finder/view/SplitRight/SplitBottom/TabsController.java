@@ -1,6 +1,5 @@
 package finder.view.SplitRight.SplitBottom;
 
-import finder.util.FinderActionInterface;
 import javafx.fxml.FXML;
 import javafx.scene.control.TabPane;
 

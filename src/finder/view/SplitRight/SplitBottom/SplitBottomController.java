@@ -1,6 +1,5 @@
 package finder.view.SplitRight.SplitBottom;
 
-import finder.util.FinderActionInterface;
 import finder.util.Resources;
 import javafx.fxml.FXML;
 import javafx.geometry.Orientation;

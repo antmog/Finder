@@ -1,10 +1,8 @@
 package finder.view.SplitRight.SplitTop;
 
-import finder.util.FinderActionInterface;
 import finder.util.Resources;
 import javafx.fxml.FXML;
 import javafx.geometry.Orientation;
-import javafx.scene.Node;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;

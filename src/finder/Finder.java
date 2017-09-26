@@ -1,7 +1,6 @@
 package finder;
 
 import finder.model.FinderInstance;
-import finder.util.FinderActionInterface;
 import finder.util.Resources;
 import finder.view.InitialScreenController;
 import javafx.application.Application;
@@ -9,11 +8,8 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
-import javax.swing.text.Style;
 
 
 public class Finder extends Application {

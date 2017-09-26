@@ -1,6 +1,5 @@
 package finder.view.SplitLeft;
 
-import finder.util.FinderActionInterface;
 import finder.util.OtherLogic;
 import finder.util.Resources;
 import javafx.fxml.FXML;

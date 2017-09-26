@@ -1,6 +1,5 @@
 package finder.view.SplitRight;
 
-import finder.util.FinderActionInterface;
 import finder.util.Resources;
 import finder.view.SplitRight.SplitBottom.SplitBottomController;
 import finder.view.SplitRight.SplitTop.SplitTopController;
