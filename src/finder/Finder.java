@@ -41,7 +41,6 @@ public class Finder extends Application {
             System.out.println("got it");
             e.printStackTrace();
         });
-        System.out.println("PAMAGITI");
         try {
             // Load main layout from fxml file.
             SplitPane view = finderActionInterface.load(getClass().getResource(Resources.FXML + "InitialScreen.fxml"), new InitialScreenController(finderActionInterface));
