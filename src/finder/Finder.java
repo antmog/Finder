@@ -1,6 +1,7 @@
 package finder;
 
 import finder.model.FinderInstance;
+import finder.util.FinderActionInterface;
 import finder.util.Resources;
 import finder.view.InitialScreenController;
 import javafx.application.Application;

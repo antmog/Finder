@@ -1,5 +1,6 @@
-package finder.view.SplitRight.SplitTop;
+package finder.view.SearchBlock.SearchParameters;
 
+import finder.util.FinderActionInterface;
 import finder.util.Resources;
 import javafx.fxml.FXML;
 import javafx.geometry.Orientation;
@@ -10,14 +11,14 @@ import javafx.scene.layout.AnchorPane;
 /**
  * Controller of top block (search text area + search options).
  */
-public class SplitTopController {
+public class SearchParametersController {
 
     private FinderActionInterface finderActionInterface;
 
     @FXML
     private SplitPane splitTop;
 
-    public SplitTopController(FinderActionInterface finderActionInterface) {
+    public SearchParametersController(FinderActionInterface finderActionInterface) {
         this.finderActionInterface = finderActionInterface;
     }
 

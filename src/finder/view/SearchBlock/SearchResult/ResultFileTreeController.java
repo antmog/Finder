@@ -1,6 +1,7 @@
-package finder.view.SplitRight.SplitBottom;
+package finder.view.SearchBlock.SearchResult;
 
 import finder.model.ResultFileTree;
+import finder.util.FinderActionInterface;
 import finder.util.OtherLogic;
 import finder.util.Resources;
 import javafx.fxml.FXML;

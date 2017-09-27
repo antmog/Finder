@@ -1,5 +1,6 @@
-package finder.view.SplitRight.SplitBottom;
+package finder.view.SearchBlock.SearchResult;
 
+import finder.util.FinderActionInterface;
 import javafx.fxml.FXML;
 import javafx.scene.control.TabPane;
 

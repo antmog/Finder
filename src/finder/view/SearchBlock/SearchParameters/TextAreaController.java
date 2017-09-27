@@ -1,5 +1,6 @@
-package finder.view.SplitRight.SplitTop;
+package finder.view.SearchBlock.SearchParameters;
 
+import finder.util.FinderActionInterface;
 import finder.util.Resources;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;

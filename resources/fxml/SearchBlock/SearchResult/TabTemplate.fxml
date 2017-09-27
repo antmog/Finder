@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 
-<AnchorPane prefHeight="338.0" prefWidth="494.0" stylesheets="/finder/util/css/TabTemplate.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="338.0" prefWidth="494.0" stylesheets="/resources/css/TabTemplate.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#searchBack" prefHeight="25.0" prefWidth="44.0" text="Back" />
         <Button layoutX="63.0" layoutY="14.0" mnemonicParsing="false" onAction="#searchForward" prefHeight="25.0" prefWidth="62.0" text="Forward" />

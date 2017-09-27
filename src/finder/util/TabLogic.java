@@ -2,7 +2,7 @@ package finder.util;
 
 import finder.model.CustomTab;
 import finder.model.FinderInstance;
-import finder.view.SplitRight.SplitBottom.TabTemplateController;
+import finder.view.SearchBlock.SearchResult.TabTemplateController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 

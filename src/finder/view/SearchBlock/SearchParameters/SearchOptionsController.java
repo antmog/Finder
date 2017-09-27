@@ -1,5 +1,6 @@
-package finder.view.SplitRight.SplitTop;
+package finder.view.SearchBlock.SearchParameters;
 
+import finder.util.FinderActionInterface;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

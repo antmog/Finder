@@ -1,4 +1,4 @@
-package finder.view.SplitRight.SplitBottom;
+package finder.view.SearchBlock.SearchResult;
 
 import finder.model.*;
 import finder.util.SearchInFileTask;

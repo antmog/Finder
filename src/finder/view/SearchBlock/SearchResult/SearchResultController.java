@@ -1,5 +1,6 @@
-package finder.view.SplitRight.SplitBottom;
+package finder.view.SearchBlock.SearchResult;
 
+import finder.util.FinderActionInterface;
 import finder.util.Resources;
 import javafx.fxml.FXML;
 import javafx.geometry.Orientation;
@@ -10,11 +11,11 @@ import javafx.scene.control.TreeView;
 /**
  * Controller of bottom part (result file tree + file content).
  */
-public class SplitBottomController {
+public class SearchResultController {
 
     private FinderActionInterface finderActionInterface;
 
-    public SplitBottomController(FinderActionInterface finderActionInterface) {
+    public SearchResultController(FinderActionInterface finderActionInterface) {
         this.finderActionInterface = finderActionInterface;
     }
 
