@@ -33,18 +33,15 @@ public class Finder extends Application {
         finderInstance = new FinderInstance();
         finderActionInterface = new FinderActionInterface(finderInstance);
         // doesnt work :(( WTF :( shock
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException(Thread t, Throwable e) {
-                //searchButton.setText("Search");
-                //searchButton.arm();
-                //for tab.setText("TabName"): add ThreadId field to CustromTab => find tab where ThreadID = exception t.ID =>
-                //and set name of tab to normal instead of "Loading" or just close it
-                System.out.println("got it");
-                e.printStackTrace();
-            }
+        Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
+            //searchButton.setText("Search");
+            //searchButton.arm();
+            //for tab.setText("TabName"): add ThreadId field to CustromTab => find tab where ThreadID = exception t.ID =>
+            //and set name of tab to normal instead of "Loading" or just close it
+            System.out.println("got it");
+            e.printStackTrace();
         });
-
+        System.out.println("PAMAGITI");
         try {
             // Load main layout from fxml file.
             SplitPane view = finderActionInterface.load(getClass().getResource(Resources.FXML + "InitialScreen.fxml"), new InitialScreenController(finderActionInterface));
