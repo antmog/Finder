@@ -29,10 +29,10 @@ public class SearchBlockController {
             // Initialising RIGHT part of interface.
 
             // Loading TOP part of interface.
-            SplitPane SplitTop = finderActionInterface.load(this.getClass().getResource(Resources.FXMLtop + "SearchParameters.fxml"), new SearchParametersController(this.finderActionInterface));
+            SplitPane SplitTop = finderActionInterface.load(this.getClass().getResource(Resources.FXMLSearchParameters + "SearchParameters.fxml"), new SearchParametersController(this.finderActionInterface));
 
             // Loading BOTTOM part of interface.
-            SplitPane SplitBottom = finderActionInterface.load(this.getClass().getResource(Resources.FXMLbot + "SearchResult.fxml"), new SearchResultController(this.finderActionInterface));
+            SplitPane SplitBottom = finderActionInterface.load(this.getClass().getResource(Resources.FXMLSearchResult + "SearchResult.fxml"), new SearchResultController(this.finderActionInterface));
 
             splitRight.getItems().addAll(SplitTop, SplitBottom);
         } catch (Exception e) {

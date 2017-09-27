@@ -29,9 +29,9 @@ public class SearchParametersController {
 
 
             // Search text area.
-            TextArea textArea = finderActionInterface.load(this.getClass().getResource(Resources.FXMLtop + "TextArea.fxml"), new TextAreaController(this.finderActionInterface));
+            TextArea textArea = finderActionInterface.load(this.getClass().getResource(Resources.FXMLSearchParameters + "TextArea.fxml"), new TextAreaController(this.finderActionInterface));
             // Search options block.
-            AnchorPane searchOptionsBlock = finderActionInterface.load(this.getClass().getResource(Resources.FXMLtop + "SearchOptionsBlock.fxml"), new SearchOptionsController(this.finderActionInterface));
+            AnchorPane searchOptionsBlock = finderActionInterface.load(this.getClass().getResource(Resources.FXMLSearchParameters + "SearchOptionsBlock.fxml"), new SearchOptionsController(this.finderActionInterface));
             searchOptionsBlock.getStylesheets().add(Resources.CSS + "SearchOptionsBlock.css");
 
             // Wrapping search options block into Anchor Pane (for better visualisation).

@@ -19,7 +19,7 @@ public class TabLogic {
         CustomTab tab = new CustomTab(numTabs, file.getName(), finderInstance.getResultTabPane(), file, searchText);
         try {
             // loading TabTemplate (view)
-            FXMLLoader anchorLoader = new FXMLLoader(tab.getClass().getResource(Resources.FXMLbot + "TabTemplate.fxml"));
+            FXMLLoader anchorLoader = new FXMLLoader(tab.getClass().getResource(Resources.FXMLSearchResult + "TabTemplate.fxml"));
             anchorLoader.setController(new TabTemplateController(tab));
             AnchorPane anchor = anchorLoader.load();
             // setting that view for created tab

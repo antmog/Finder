@@ -28,9 +28,9 @@ public class SearchResultController {
             splitBottom.setOrientation(Orientation.HORIZONTAL);
 
             // Loading left pane.
-            TreeView SplitLeft = finderActionInterface.load(this.getClass().getResource(Resources.FXMLbot + "ResultFileTree.fxml"), new ResultFileTreeController(this.finderActionInterface));
+            TreeView SplitLeft = finderActionInterface.load(this.getClass().getResource(Resources.FXMLSearchResult + "ResultFileTree.fxml"), new ResultFileTreeController(this.finderActionInterface));
             // Loading right pane.
-            TabPane SplitRight = finderActionInterface.load(this.getClass().getResource(Resources.FXMLbot + "TabPane.fxml"), new TabsController(this.finderActionInterface));
+            TabPane SplitRight = finderActionInterface.load(this.getClass().getResource(Resources.FXMLSearchResult + "TabPane.fxml"), new TabsController(this.finderActionInterface));
             SplitRight.getStylesheets().add(Resources.CSS + "TabPane.css");
 
             // setting loaded elements as content of bottom part
