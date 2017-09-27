@@ -1,5 +1,5 @@
 #up {
-    -fx-background-image: url("../img/upButton.png");
+    -fx-background-image: url("/img/up_button.png");
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
@@ -7,7 +7,7 @@
     -fx-text-fill: #a5a5a4;
 }
 #down {
-    -fx-background-image: url("../img/downButton.png");
+    -fx-background-image: url("/img/down_button.png");
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
