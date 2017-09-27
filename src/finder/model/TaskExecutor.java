@@ -1,15 +1,10 @@
 package finder.model;
 
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class TaskExecutor {
-    private ExecutorService exec;
-
-    public TaskExecutor(ExecutorService exec) {
-        this.exec = exec;
-    }
-
-    public ExecutorService getExecutor() {
-        return this.exec;
+    public ExecutorService createService(){
+        return Executors.newCachedThreadPool();
     }
 }

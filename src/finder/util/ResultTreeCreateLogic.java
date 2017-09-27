@@ -1,10 +1,18 @@
 package finder.util;
 
+import finder.Finder;
 import finder.model.FinderInstance;
+import finder.view.InitialScreenController;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.CheckBoxTreeItem;
 import javafx.scene.control.TreeItem;
+import javafx.scene.image.Image;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class ResultTreeCreateLogic {
@@ -90,8 +98,13 @@ public class ResultTreeCreateLogic {
         TreeItem<String> treeItem = new TreeItem<>(OtherLogic.getShortFileName(item));
         resultRootItem.getChildren().add(treeItem);
         if (item.isFile()) {
-            //Highlight? tbd
-
+            // Any custom visualisation for tree node wich is not folder (file) (for better view).
+            /*
+            try {
+                treeItem.setGraphic(new FXMLLoader(Finder.class.getResource(Resources.IMG + "Icon.png")).load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }*/
             // expands all parent directories of file found
             while (treeItem.getParent() != null) {
                 treeItem = treeItem.getParent();

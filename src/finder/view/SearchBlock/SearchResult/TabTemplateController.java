@@ -8,12 +8,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class TabTemplateController {
 
     private CustomTab tab;
-    private TaskExecutor exec;
+    private TaskExecutor taskExecutor = new TaskExecutor();
     private CustomRandomAccessFile cRaf;
     private CustomRandomAccessFile cRafShow;
 
@@ -46,7 +47,6 @@ public class TabTemplateController {
 
     @FXML
     private void initialize() {
-        exec = new TaskExecutor(Executors.newCachedThreadPool());
         tab.setElements(textArea, showLinesCount, rowNumbers, lineCount);
         searchTextArea.setText(tab.getSearchText());
         // analyzing file
@@ -70,7 +70,8 @@ public class TabTemplateController {
         tab.setLoading();
         try {
             cRafShow = new CustomRandomAccessFile(tab.getFile(), "r", bufferSize);
-            exec.getExecutor().execute(new Thread(new ShowTask(tab, cRafShow)));
+            ExecutorService exec = taskExecutor.createService();
+            exec.execute(new Thread(new ShowTask(tab, cRafShow, exec)));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -106,7 +107,8 @@ public class TabTemplateController {
                 } else {
                     cRaf = new CustomRandomAccessFile(tab.getFile(), "r", bufferSize);
                 }
-                exec.getExecutor().execute(new Thread(new SearchInFileTask(tab, cRaf, exec)));
+                ExecutorService exec = taskExecutor.createService();
+                exec.execute(new Thread(new SearchInFileTask(tab, cRaf, exec)));
             } catch (Exception e) {
                 e.printStackTrace();
             }

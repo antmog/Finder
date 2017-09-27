@@ -21,4 +21,8 @@ public interface ActionsInterface {
      */
     void actionClickSearch();
 
+    /**
+     * Delete selected tree node from main tree.
+     */
+    void deleteSelectedTreeNode();
 }

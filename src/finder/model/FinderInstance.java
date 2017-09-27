@@ -1,6 +1,7 @@
 package finder.model;
 
 import javafx.collections.ObservableList;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TreeView;
@@ -16,7 +17,18 @@ public class FinderInstance {
     private TabPane resultTabPane;                              // TabPane containing tabs
     private ObservableList<String> tableData;                   // Table with extensions data
 
-    private AnchorPane searchOptionsBlock;
+    private AnchorPane searchOptionsBlock;                      // All searchOptions block
+    private SplitPane fileTreePane;                             // All left part (addUrl + main tree)
+
+    public SplitPane getFileTreePane() {
+        return fileTreePane;
+    }
+
+    public void setFileTreePane(SplitPane fileTreePane) {
+        this.fileTreePane = fileTreePane;
+    }
+
+
 
     public AnchorPane getSearchOptionsBlock() {
         return searchOptionsBlock;

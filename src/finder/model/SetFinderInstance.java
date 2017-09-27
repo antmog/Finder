@@ -1,6 +1,7 @@
 package finder.model;
 
 import javafx.collections.ObservableList;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TreeView;
@@ -55,4 +56,16 @@ public interface SetFinderInstance {
      *
      */
     void setSearchOptionsBlock(AnchorPane searchOptionsBlock);
+
+    /**
+     * Attaches FileTreePane to FinderInstance.
+     *
+     */
+    void setFileTreePane(SplitPane fileTreePane);
+
+    /**
+     * Adds URL root to main file tree.
+     *
+     */
+    String addUrlRoot(String url);
 }

@@ -2,15 +2,20 @@ package finder.util;
 
 import finder.model.*;
 import javafx.collections.ObservableList;
+import javafx.event.EventType;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
+import java.beans.EventHandler;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+
+import static finder.util.OtherLogic.CheckIfRoot;
+import static finder.util.OtherLogic.getShortFileName;
 
 
 /**
@@ -18,9 +23,29 @@ import java.net.URL;
  */
 public class FinderActionInterface implements ActionsInterface, SetFinderInstance {
     private FinderInstance finderInstance;
+    private TaskExecutor taskExecutor = new TaskExecutor();
 
     public FinderActionInterface(FinderInstance finderInstance) {
         this.finderInstance = finderInstance;
+    }
+
+    @Override
+    public String addUrlRoot(String url){
+        File folder;
+        if(url.endsWith(":")){
+            folder = new File(url+"\\");
+        }else{
+            folder = new File(url);
+        }
+        if(CheckIfRoot(folder)){
+            return "File system roots are default tree nodes.";
+        }
+        if(folder.isDirectory()&&folder.canRead()){
+            CheckBoxTreeItem<String> treeItem = new CheckBoxTreeItem<>(getShortFileName(folder));
+            finderInstance.getFileTree().getRoot().getChildren().add(treeItem);
+            return "Successfully added tree item.";
+        }
+        return "Is not directory/no access! Cant add.";
     }
 
     @Override
@@ -36,9 +61,21 @@ public class FinderActionInterface implements ActionsInterface, SetFinderInstanc
             new WarningWindow("Enter the text you are going to search pls.");
         } else {
             // disabling part of application, while searching file, making application safe
-            finderInstance.getFileTree().setDisable(true);
             finderInstance.getSearchOptionsBlock().setDisable(true);
-            FileSearchLogic.searchFiles(finderInstance);
+            finderInstance.getFileTreePane().setDisable(true);
+            FileSearchLogic.searchFiles(finderInstance,taskExecutor.createService());
+        }
+    }
+
+    @Override
+    public void deleteSelectedTreeNode() {
+        TreeView fileTree = finderInstance.getFileTree();
+        CheckBoxTreeItem<String> selectedItem = (CheckBoxTreeItem<String>) fileTree.getSelectionModel().getSelectedItem();
+        if (selectedItem.equals(fileTree.getRoot())||CheckIfRoot(new File(selectedItem.getValue()))||(!selectedItem.getParent().equals(fileTree.getRoot()))) {
+            new WarningWindow("You can delete only parents of Root and you\ncant delete  main Root or roots of file system.");
+        }else{
+            selectedItem.getParent().getChildren().remove(selectedItem);
+            new WarningWindow("Successfully deleted tree item.");
         }
     }
 
@@ -77,6 +114,11 @@ public class FinderActionInterface implements ActionsInterface, SetFinderInstanc
     @Override
     public void setSearchOptionsBlock(AnchorPane searchOptionsBlock) {
         finderInstance.setSearchOptionsBlock(searchOptionsBlock);
+    }
+
+    @Override
+    public void setFileTreePane(SplitPane fileTreePane){
+        finderInstance.setFileTreePane(fileTreePane);
     }
 
 }

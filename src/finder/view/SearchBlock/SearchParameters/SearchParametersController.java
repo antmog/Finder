@@ -27,7 +27,6 @@ public class SearchParametersController {
         try {
             // Elements of top part of interface.
 
-
             // Search text area.
             TextArea textArea = finderActionInterface.load(this.getClass().getResource(Resources.FXMLSearchParameters + "TextArea.fxml"), new TextAreaController(this.finderActionInterface));
             // Search options block.

@@ -2,24 +2,25 @@ package finder.util;
 
 import finder.model.CustomRandomAccessFile;
 import finder.model.CustomTab;
+import finder.model.ExecutableTask;
+import finder.model.TaskExecutor;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
 
 /**
  * Task (for thread) show file content in TextArea.
  */
-public class ShowTask extends Task<Void> {
+public class ShowTask extends ExecutableTask {
     private CustomRandomAccessFile cRaf;
     private CustomTab tab;
 
-    public ShowTask(CustomTab tab, CustomRandomAccessFile cRaf) {
+    public ShowTask(CustomTab tab, CustomRandomAccessFile cRaf, ExecutorService exec) {
+        super(exec);
         this.cRaf = cRaf;
         this.tab = tab;
-    }
-    public ShowTask() {
-
     }
 
     public Void call() throws IOException {
@@ -70,6 +71,7 @@ public class ShowTask extends Task<Void> {
             }
             // changing tab name back
             tab.setLoaded();
+            exec.shutdown();
         });
         return null;
     }

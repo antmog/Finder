@@ -1,0 +1,16 @@
+.addUrlPane{
+    -fx-background-color: rgba(39, 39, 38, 0.95);
+}
+.button{
+    -fx-background-color: rgb(143, 143, 142);
+}
+.text-field{
+    -fx-background-insets: 0;
+    -fx-text-fill: #a5a5a4;
+    -fx-background-color: rgba(39, 39, 38, 0.95), rgba(39, 39, 38, 0.95), rgba(39, 39, 38, 0.95), rgba(39, 39, 38, 0.95);
+}
+.text-field.content{
+    -fx-background-color: rgba(39, 39, 38, 0.95), rgba(39, 39, 38, 0.95), rgba(39, 39, 38, 0.95), rgba(39, 39, 38, 0.95);
+    -fx-font-size: 14px;
+    -fx-font-family: "Times New Roman", Helvetica, Sans-serif;
+}

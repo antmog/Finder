@@ -1,5 +1,6 @@
 package finder.util;
 
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TreeItem;
 
 import java.io.File;
@@ -38,11 +39,23 @@ public class OtherLogic {
      * @return file.getAbsolutePath() if File file is root directory, otherwise: file.getName();
      */
     public static String getShortFileName(File file) {
-        for (File root : File.listRoots()) {
-            if (file.equals(root)) {
-                return file.getAbsolutePath();
-            }
+        if(CheckIfRoot(file)){
+            return file.getAbsolutePath();
         }
         return file.getName();
+    }
+
+    /**
+     * Checking if file is a root item of current file system.
+     * @param file
+     * @return
+     */
+    public static boolean CheckIfRoot(File file){
+        for (File root : File.listRoots()) {
+            if (root.getAbsolutePath().equals(file.getAbsolutePath())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

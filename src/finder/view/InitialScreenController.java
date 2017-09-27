@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Orientation;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TreeView;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * Controller of main layout (initial screen).
@@ -35,8 +36,7 @@ public class InitialScreenController {
             // Creating sub-elements for the scene.
 
             // Loading left pane.
-            TreeView SplitLeft = finderActionInterface.load(this.getClass().getResource(Resources.FXMLFileTree + "FileTree.fxml"), new FileTreeController(this.finderActionInterface));
-            SplitLeft.getStylesheets().add(Resources.CSS + "TreeView.css");
+            SplitPane SplitLeft = finderActionInterface.load(this.getClass().getResource(Resources.FXMLFileTree + "FileTree.fxml"), new FileTreeController(this.finderActionInterface));
             // Loading right pane.
             SplitPane SplitRight = finderActionInterface.load(this.getClass().getResource(Resources.FXMLSearchBlock + "SearchBlock.fxml"), new SearchBlockController(this.finderActionInterface));
 

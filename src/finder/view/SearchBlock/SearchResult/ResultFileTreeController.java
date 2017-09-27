@@ -31,8 +31,9 @@ public class ResultFileTreeController {
         // selection listener - opens file from result tree
         fileTree.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             finderActionInterface.actionNewTab(new File(OtherLogic.getFilePath((TreeItem<String>) newValue)), resultFileTree);
-            // exception usually happens when loading new ResultTree instead of old and smth is selected in old one.
-            // solution - change to OnClick listener
+            // DONT WOORY IF YOU SEE EXCEPTION HERE!
+            // exception usually happens when loading new ResultTree and smth is selected in old one that is gone.
+            // solution - change to OnClick listener or clear selection!
         });
     }
 }

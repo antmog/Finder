@@ -1,6 +1,8 @@
 package finder.util;
 
+import finder.model.ExecutableTask;
 import finder.model.FinderInstance;
+import finder.model.TaskExecutor;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.scene.control.CheckBoxTreeItem;
@@ -18,7 +20,7 @@ public class FileSearchLogic {
     /**
      * Searching files full action.
      **/
-    public static void searchFiles(FinderInstance finderInstance) {
+    public static void searchFiles(FinderInstance finderInstance, ExecutorService exec) {
         // text from textArea
         StringBuffer sb = new StringBuffer(finderInstance.getTextArea().getText());
         // list for keeping search results, contains:
@@ -27,23 +29,21 @@ public class FileSearchLogic {
         ArrayList<File> listOfDirs = new ArrayList<>();
         // array of extensions of files program is searching for
         Object[] extensions = finderInstance.getTableData().toArray();
-
-        Task task = new Task<Void>() {
+        exec.execute(new Thread(new ExecutableTask(exec) {
             @Override
-            public Void call() {
+            protected Void call() throws Exception {
                 // searching files and making form for result tree
                 searchInTree(finderInstance.getFileTree().getRoot(), listOfDirs, sb, extensions);
                 Platform.runLater(() -> {
                     // generating result tree
                     ResultTreeCreateLogic.showResultFileTree(sb, listOfDirs, extensions, finderInstance);
-                    finderInstance.getFileTree().setDisable(false);
                     finderInstance.getSearchOptionsBlock().setDisable(false);
+                    finderInstance.getFileTreePane().setDisable(false);
+                    exec.shutdown();
                 });
                 return null;
             }
-        };
-        ExecutorService exec = Executors.newCachedThreadPool();
-        exec.execute(new Thread(task));
+        }));
 
     }
 

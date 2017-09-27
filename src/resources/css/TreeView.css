@@ -16,6 +16,9 @@
 .tree-cell:hover {
     -fx-background-color: rgba(7, 7, 6, 0.97);
 }
+.tree-cell:selected{
+    -fx-background-color: rgba(34, 124, 23, 0.97);
+}
 .tree-cell .tree-disclosure-node .arrow {
     -fx-shape: null;
     -fx-background-color: null;

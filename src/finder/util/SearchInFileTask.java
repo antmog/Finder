@@ -6,16 +6,18 @@ import javafx.concurrent.Task;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
 
 /**
  * Task (for thread): search text in file.
  */
-public class SearchInFileTask extends Task<Void> {
+public class SearchInFileTask extends ExecutableTask {
     private CustomRandomAccessFile cRaf;
     private CustomTab tab;
-    private TaskExecutor exec;
+    private ExecutorService exec;
 
-    public SearchInFileTask(CustomTab tab, CustomRandomAccessFile cRaf, TaskExecutor exec) {
+    public SearchInFileTask(CustomTab tab, CustomRandomAccessFile cRaf, ExecutorService exec) {
+        super(exec);
         this.cRaf = cRaf;
         this.tab = tab;
         this.exec = exec;
@@ -68,10 +70,11 @@ public class SearchInFileTask extends Task<Void> {
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-                exec.getExecutor().execute(new Thread(new ShowTask(tab, cRaf)));
+                exec.execute(new Thread(new ShowTask(tab, cRaf, exec)));
             } else {
                 tab.setLoaded();
                 new WarningWindow(tab.getTab().getText() + ": Nothing found. Sorry.");
+                exec.shutdown();
             }
         });
         return null;
