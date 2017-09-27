@@ -22,6 +22,7 @@ public class Finder extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        System.out.println("qq");
         Finder.stage = stage;
         Finder.stage.setTitle("Finder");
         Finder.stage.initStyle(StageStyle.UNIFIED);
