@@ -15,14 +15,19 @@ public class ResultTreeCreateLogic {
      * @param listOfDirs List of directories containing files we search for (and files).
      * @param sb         Text to search.
      */
-    public static void showResultFileTree(StringBuffer sb, List<File> listOfDirs, FinderInstance finderInstance) {
+    public static void showResultFileTree(StringBuffer sb, List<File> listOfDirs, FinderActionInterface finderActionInterface) {
+        FinderInstance finderInstance = finderActionInterface.getFinderInstance();
         // creating new tree from root of main tree (where folders to search are selected)
         // suppress warning? i swear finderInstance.getFileTree().getRoot() is a tree item
         TreeItem<String> resultRootItem = new TreeItem<>((finderInstance.getFileTree().getRoot()).getValue());
         generateResultTree(resultRootItem, listOfDirs);
         finderInstance.getResultFileTree().setSearchText(sb.toString());
-        // clear result tree
+        // delete listener
+        finderActionInterface.deleteSelectionListener(finderInstance.getResultFileTree());
+        // refresh result tree
         finderInstance.getResultFileTree().setRoot(resultRootItem);
+        // add listener
+        finderActionInterface.addSelectionListener(finderInstance.getResultFileTree());
     }
 
     /**
