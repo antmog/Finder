@@ -10,9 +10,9 @@ import javafx.scene.layout.AnchorPane;
  * Instance of application.
  */
 public class FinderInstance {
-    private ResultFileTree resultFileTree;                      // ResultFileTree object (see ResultFileTree.java)
+    private ResultFileTree<String> resultFileTree;                      // ResultFileTree object (see ResultFileTree.java)
     private TextArea textArea;                                  // Main TextArea of application
-    private TreeView fileTree;                                  // Main file tree
+    private TreeView<String> fileTree;                                  // Main file tree
     private TabPane resultTabPane;                              // TabPane containing tabs
     private ObservableList<String> tableData;                   // Table with extensions data
 
@@ -45,11 +45,11 @@ public class FinderInstance {
         this.textArea = textArea;
     }
 
-    public TreeView getFileTree() {
+    public TreeView<String> getFileTree() {
         return fileTree;
     }
 
-    public void setFileTree(TreeView fileTree) {
+    public void setFileTree(TreeView<String> fileTree) {
         this.fileTree = fileTree;
     }
 
@@ -69,11 +69,11 @@ public class FinderInstance {
         this.tableData = tableData;
     }
 
-    public ResultFileTree getResultFileTree() {
+    public ResultFileTree<String> getResultFileTree() {
         return resultFileTree;
     }
 
-    public void setResultFileTree(ResultFileTree resultFileTree) {
+    public void setResultFileTree(ResultFileTree<String> resultFileTree) {
         this.resultFileTree = resultFileTree;
     }
 }

@@ -21,7 +21,7 @@ public class WarningWindow {
             stage.setScene(scene);
             stage.show();
         } catch (Exception e) {
-            System.out.println("Failed to create new Window.");
+            System.err.println("Failed to create new Window.");
             e.printStackTrace();
         }
     }

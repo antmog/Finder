@@ -1,6 +1,7 @@
 package finder.util;
 
 import finder.model.*;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -10,33 +11,38 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-import static finder.util.OtherLogic.CheckIfRoot;
-import static finder.util.OtherLogic.getShortFileName;
+import static finder.util.FileSystemLogic.CheckIfRoot;
+import static finder.util.FileSystemLogic.getShortFileName;
 
 
 /**
- * Implementation of Action interface, Set src.finder interface + keeps finderInstance.
+ * Implementation of Action interface, SetFinderInstanceParams + keeps finderInstance.
  */
-public class FinderActionInterface implements ActionsInterface, SetFinderInstance {
+public class FinderActionInterface implements ActionsInterface, SetFinderInstanceParams {
     private FinderInstance finderInstance;
-    private TaskExecutor taskExecutor = new TaskExecutor();
+    ChangeListener<TreeItem<String>> changeListener;
 
     public FinderActionInterface(FinderInstance finderInstance) {
         this.finderInstance = finderInstance;
+        TaskExecutor.getInstance();
+    }
+
+    public FinderInstance getFinderInstance() {
+        return finderInstance;
     }
 
     @Override
-    public String addUrlRoot(String url){
+    public String addUrlRoot(String url) {
         File folder;
-        if(url.endsWith(":")){
-            folder = new File(url+"\\");
-        }else{
+        if (url.endsWith(":")) {
+            folder = new File(url + "\\");
+        } else {
             folder = new File(url);
         }
-        if(CheckIfRoot(folder)){
+        if (CheckIfRoot(folder)) {
             return "File system roots are default tree nodes.";
         }
-        if(folder.isDirectory()&&folder.canRead()){
+        if (folder.isDirectory() && folder.canRead()) {
             CheckBoxTreeItem<String> treeItem = new CheckBoxTreeItem<>(getShortFileName(folder));
             finderInstance.getFileTree().getRoot().getChildren().add(treeItem);
             return "Successfully added tree item.";
@@ -45,7 +51,7 @@ public class FinderActionInterface implements ActionsInterface, SetFinderInstanc
     }
 
     @Override
-    public <T> T load(URL url, Object controller) throws IOException {
+    public <T, T1> T load(URL url, T1 controller) throws IOException {
         FXMLLoader loader = new FXMLLoader(url);
         loader.setController(controller);
         return loader.load();
@@ -59,20 +65,36 @@ public class FinderActionInterface implements ActionsInterface, SetFinderInstanc
             // disabling part of application, while searching file, making application safe
             finderInstance.getSearchOptionsBlock().setDisable(true);
             finderInstance.getFileTreePane().setDisable(true);
-            FileSearchLogic.searchFiles(finderInstance,taskExecutor.createService());
+            FileSearchLogic.searchFiles(this);
         }
     }
 
     @Override
     public void deleteSelectedTreeNode() {
-        TreeView fileTree = finderInstance.getFileTree();
-        CheckBoxTreeItem<String> selectedItem = (CheckBoxTreeItem<String>) fileTree.getSelectionModel().getSelectedItem();
-        if (selectedItem.equals(fileTree.getRoot())||CheckIfRoot(new File(selectedItem.getValue()))||(!selectedItem.getParent().equals(fileTree.getRoot()))) {
-            new WarningWindow("You can delete only parents of Root and you\ncant delete  main Root or roots of file system.");
-        }else{
+        TreeView<String> fileTree = finderInstance.getFileTree();
+        CheckBoxTreeItem<String> selectedItem =
+                (CheckBoxTreeItem<String>) fileTree.getSelectionModel().getSelectedItem();
+        if (selectedItem.equals(fileTree.getRoot()) || CheckIfRoot(new File(selectedItem.getValue())) ||
+                (!selectedItem.getParent().equals(fileTree.getRoot()))) {
+            new WarningWindow("You can delete only parents of Root and you\ncant " +
+                    "delete  main Root or roots of file system.");
+        } else {
             selectedItem.getParent().getChildren().remove(selectedItem);
             new WarningWindow("Successfully deleted tree item.");
         }
+    }
+
+    @Override
+    public void addSelectionListener(ResultFileTree<String> tree) {
+        changeListener = (observable, oldValue, newValue) -> this.actionNewTab
+                (new File(FileSystemLogic.getFilePath(newValue)), tree);
+        // selection listener - opens file from result tree
+        tree.getSelectionModel().selectedItemProperty().addListener(changeListener);
+    }
+
+    @Override
+    public void deleteSelectionListener(ResultFileTree<String> tree) {
+        tree.getSelectionModel().selectedItemProperty().removeListener(changeListener);
     }
 
     @Override
@@ -83,27 +105,27 @@ public class FinderActionInterface implements ActionsInterface, SetFinderInstanc
     }
 
     @Override
-    public void actionSetTextArea(TextArea textArea) {
+    public void setTextArea(TextArea textArea) {
         finderInstance.setTextArea(textArea);
     }
 
     @Override
-    public void actionSetTree(TreeView treeView) {
+    public void setTree(TreeView<String> treeView) {
         finderInstance.setFileTree(treeView);
     }
 
     @Override
-    public void actionSetTableData(ObservableList<String> loadedTableData) {
+    public void setTableData(ObservableList<String> loadedTableData) {
         finderInstance.setTableData(loadedTableData);
     }
 
     @Override
-    public void actionSetTabPane(TabPane tabPane) {
+    public void setTabPane(TabPane tabPane) {
         finderInstance.setResultTabPane(tabPane);
     }
 
     @Override
-    public void setResultTree(ResultFileTree fileTree) {
+    public void setResultTree(ResultFileTree<String> fileTree) {
         finderInstance.setResultFileTree(fileTree);
     }
 
@@ -113,7 +135,7 @@ public class FinderActionInterface implements ActionsInterface, SetFinderInstanc
     }
 
     @Override
-    public void setFileTreePane(SplitPane fileTreePane){
+    public void setFileTreePane(SplitPane fileTreePane) {
         finderInstance.setFileTreePane(fileTreePane);
     }
 

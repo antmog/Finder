@@ -6,10 +6,10 @@ package finder.util;
 public final class Resources {
 
     public static final String FXML = "/fxml/";
-    public static final String FXMLSearchParameters = "/fxml/SearchBlock/SearchParameters/";
-    public static final String FXMLSearchResult = "/fxml/SearchBlock/SearchResult/";
-    public static final String FXMLFileTree = "/fxml/FileTree/";
-    public static final String FXMLSearchBlock = "/fxml/SearchBlock/";
+    public static final String FXMLSearchParameters = "/fxml/search_block/search_parameters/";
+    public static final String FXMLSearchResult = "/fxml/search_block/search_result/";
+    public static final String FXMLFileTree = "/fxml/file_tree/";
+    public static final String FXMLSearchBlock = "/fxml/search_block/";
 
     public static final String IMG = "/img/";
     public static final String CSS = "/css/";

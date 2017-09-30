@@ -10,9 +10,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="293.0"
             prefWidth="429.0" styleClass="warning" stylesheets="/css/warning_window.css"
             xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-    <children>
         <Button layoutX="156.0" layoutY="212.0" mnemonicParsing="false" onAction="#close" prefHeight="37.0"
                 prefWidth="117.0" text="OK"/>
         <Label fx:id="warningMessage" layoutX="2.0" layoutY="76.0" prefHeight="58.0" prefWidth="429.0" text="Label"/>
-    </children>
 </AnchorPane>

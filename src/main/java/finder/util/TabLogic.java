@@ -1,8 +1,8 @@
 package finder.util;
 
-import finder.model.CustomTab;
+import finder.model.FileTab;
 import finder.model.FinderInstance;
-import finder.view.SearchBlock.SearchResult.TabTemplateController;
+import finder.view.searchblock.searchresult.TabTemplateController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 
@@ -16,10 +16,11 @@ public class TabLogic {
             numTabs = finderInstance.getResultTabPane().getTabs().size() + 1;
         }
         // creating customTab object with following parameters
-        CustomTab tab = new CustomTab(numTabs, file.getName(), finderInstance.getResultTabPane(), file, searchText);
+        FileTab tab = new FileTab(numTabs, file.getName(), finderInstance.getResultTabPane(), file, searchText);
         try {
             // loading TabTemplate (view)
-            FXMLLoader anchorLoader = new FXMLLoader(tab.getClass().getResource(Resources.FXMLSearchResult + "tab_template.fxml"));
+            FXMLLoader anchorLoader = new FXMLLoader(tab.getClass().getResource
+                    (Resources.FXMLSearchResult + "tab_template.fxml"));
             anchorLoader.setController(new TabTemplateController(tab));
             AnchorPane anchor = anchorLoader.load();
             // setting that view for created tab

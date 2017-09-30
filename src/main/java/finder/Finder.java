@@ -16,8 +16,6 @@ import javafx.stage.StageStyle;
 public class Finder extends Application {
 
     private static Stage stage;
-    private FinderInstance finderInstance;
-    private FinderActionInterface finderActionInterface;
 
 
     @Override
@@ -28,22 +26,19 @@ public class Finder extends Application {
         Finder.stage.getIcons().add(new Image(getClass().getResource(Resources.IMG + "icon.png").toString()));
         Finder.stage.setOnCloseRequest(event -> {
             Platform.exit();
-            System.exit(0);
+            //System.exit(0);
         });
-        finderInstance = new FinderInstance();
-        finderActionInterface = new FinderActionInterface(finderInstance);
-        // doesnt work :(( WTF :( shock
+        FinderInstance finderInstance = new FinderInstance();
+        FinderActionInterface finderActionInterface = new FinderActionInterface(finderInstance);
+        //
         Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
-            //searchButton.setText("Search");
-            //searchButton.arm();
-            //for tab.setText("TabName"): add ThreadId field to CustromTab => find tab where ThreadID = exception t.ID =>
-            //and set name of tab to normal instead of "Loading" or just close it
-            System.out.println("got it");
+            System.err.println("Got exception in thread.");
             e.printStackTrace();
         });
         try {
             // Load main layout from fxml file.
-            SplitPane view = finderActionInterface.load(getClass().getResource(Resources.FXML + "initial_screen.fxml"), new InitialScreenController(finderActionInterface));
+            SplitPane view = finderActionInterface.load(getClass().getResource
+                    (Resources.FXML + "initial_screen.fxml"), new InitialScreenController(finderActionInterface));
             view.getStylesheets().add(Resources.CSS + "finder.css");
             // Shows the scene containing the main layout.
             Scene scene = new Scene(view);
@@ -53,7 +48,8 @@ public class Finder extends Application {
 
         } catch (Exception ex) {
             ex.printStackTrace();
-            System.exit(0);
+            Platform.exit();
+            //System.exit(0);
         }
     }
 
