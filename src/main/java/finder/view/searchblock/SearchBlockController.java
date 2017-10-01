@@ -1,6 +1,6 @@
 package finder.view.searchblock;
 
-import finder.util.FinderActionInterface;
+import finder.util.FinderAction;
 import finder.util.Resources;
 import finder.view.searchblock.searchresult.SearchResultController;
 import finder.view.searchblock.searchparameters.SearchParametersController;
@@ -14,13 +14,13 @@ import javafx.scene.control.SplitPane;
  */
 public class SearchBlockController {
 
-    private FinderActionInterface finderActionInterface;
+    ;
 
     @FXML
     private SplitPane splitRight;
 
-    public SearchBlockController(FinderActionInterface finderActionInterface) {
-        this.finderActionInterface = finderActionInterface;
+    public SearchBlockController() {
+
     }
 
     @FXML
@@ -29,14 +29,14 @@ public class SearchBlockController {
             // Initialising RIGHT part of interface.
 
             // Loading TOP part of interface.
-            SplitPane SplitTop = finderActionInterface.load(this.getClass().getResource(
+            SplitPane SplitTop = FinderAction.getInstance().load(this.getClass().getResource(
                     Resources.FXMLSearchParameters + "search_parameters.fxml"),
-                    new SearchParametersController(this.finderActionInterface));
+                    new SearchParametersController());
 
             // Loading BOTTOM part of interface.
-            SplitPane SplitBottom = finderActionInterface.load(this.getClass().getResource(
+            SplitPane SplitBottom = FinderAction.getInstance().load(this.getClass().getResource(
                     Resources.FXMLSearchResult + "search_result.fxml"),
-                    new SearchResultController(this.finderActionInterface));
+                    new SearchResultController());
 
             splitRight.getItems().addAll(SplitTop, SplitBottom);
         } catch (Exception e) {

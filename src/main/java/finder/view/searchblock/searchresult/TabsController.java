@@ -1,15 +1,15 @@
 package finder.view.searchblock.searchresult;
 
-import finder.util.FinderActionInterface;
+import finder.util.FinderAction;
 import javafx.fxml.FXML;
 import javafx.scene.control.TabPane;
 
 public class TabsController {
 
-    private FinderActionInterface finderActionInterface;
+    ;
 
-    public TabsController(FinderActionInterface finderActionInterface) {
-        this.finderActionInterface = finderActionInterface;
+    public TabsController() {
+
     }
 
     @FXML
@@ -18,6 +18,6 @@ public class TabsController {
 
     @FXML
     private void initialize() {
-        finderActionInterface.setTabPane(tabPane);
+        FinderAction.getInstance().setTabPane(tabPane);
     }
 }

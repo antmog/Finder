@@ -1,7 +1,7 @@
 package finder.view.filetree;
 
 import finder.model.WarningWindow;
-import finder.util.FinderActionInterface;
+import finder.util.FinderAction;
 import finder.util.Resources;
 import javafx.fxml.FXML;
 import javafx.geometry.Orientation;
@@ -11,13 +11,13 @@ import javafx.scene.control.TextField;
 
 
 public class AddUrlController {
-    private FinderActionInterface finderActionInterface;
+    ;
 
     @FXML
     private SplitPane addUrlPane;
 
-    public AddUrlController(FinderActionInterface finderActionInterface) {
-        this.finderActionInterface = finderActionInterface;
+    public AddUrlController() {
+
     }
 
     @FXML
@@ -31,9 +31,9 @@ public class AddUrlController {
             // Elements:
             TextField addUrlText = new TextField();
             Button addUrlButton = new Button("Add URL");
-            addUrlButton.setOnAction(event -> new WarningWindow(finderActionInterface.addUrlRoot(addUrlText.getText())));
+            addUrlButton.setOnAction(event -> new WarningWindow(FinderAction.getInstance().addUrlRoot(addUrlText.getText())));
             Button delNodeButton = new Button("Remove");
-            delNodeButton.setOnAction(event -> finderActionInterface.deleteSelectedTreeNode());
+            delNodeButton.setOnAction(event -> FinderAction.getInstance().deleteSelectedTreeNode());
             // Adding elements to main layout.
             addUrlPane.getItems().addAll(addUrlText, addUrlButton,delNodeButton);
 

@@ -1,6 +1,6 @@
 package finder.view.filetree;
 
-import finder.util.FinderActionInterface;
+import finder.util.FinderAction;
 import finder.util.FileSystemLogic;
 import finder.util.Resources;
 import javafx.fxml.FXML;
@@ -10,17 +10,16 @@ import javafx.scene.control.cell.CheckBoxTreeCell;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class TreeController {
 
-    private FinderActionInterface finderActionInterface;
+    ;
 
     @FXML
     private TreeView<String> fileTree;
 
-    public TreeController(FinderActionInterface finderActionInterface) {
-        this.finderActionInterface = finderActionInterface;
+    public TreeController() {
+
     }
 
     @FXML
@@ -41,7 +40,7 @@ public class TreeController {
         }
         // Setting root item for file tree.
         fileTree.setRoot(rootItem);
-        finderActionInterface.setTree(fileTree);
+        FinderAction.getInstance().setTree(fileTree);
 
         // File tree listener (expands folders and loads content w/o content of sub-folders, user will have to click at
         // sub-folder to load more content).

@@ -1,26 +1,31 @@
 package finder.view.searchblock.searchparameters;
 
-import finder.util.FinderActionInterface;
+import finder.util.FinderAction;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
+
+
 /**
  * Controller for SearchOptions part of application.
  */
-public class SearchOptionsController {
+public class SearchOptionsBlockController {
     private ObservableList<String> tableData = FXCollections.observableArrayList();
 
-
-    private FinderActionInterface finderActionInterface;
-
     @FXML
-    private Button searchFilesButton;
+    private Button searchButton;
+    @FXML
+    private Button addButton;
+    @FXML
+    private Button delButton;
 
     // Text field where user enters extension.
     @FXML
@@ -34,8 +39,8 @@ public class SearchOptionsController {
     private TableColumn<String, String> extensionsColumn;
 
 
-    public SearchOptionsController(FinderActionInterface finderActionInterface) {
-        this.finderActionInterface = finderActionInterface;
+    public SearchOptionsBlockController() {
+
     }
 
 
@@ -44,7 +49,12 @@ public class SearchOptionsController {
      */
     @FXML
     private void initialize() {
+        FinderAction.getInstance().getFinderInstance().setAddButton(addButton);
+        FinderAction.getInstance().getFinderInstance().setDelButton(delButton);
+        FinderAction.getInstance().getFinderInstance().setSearchButton(searchButton);
+        FinderAction.getInstance().getFinderInstance().setAddExtensionTextField(addExtensionText);
         initData();
+        FinderAction.getInstance().setTableData(tableData);
         // Selecting column type.
         extensionsColumn.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue()));
         // Adding data to table.
@@ -60,6 +70,7 @@ public class SearchOptionsController {
         if (!tableData.contains(addExtensionText.getText())) {
             tableData.add(addExtensionText.getText());
         }
+        FinderAction.getInstance().setTableData(tableData);
     }
 
     /**
@@ -69,6 +80,7 @@ public class SearchOptionsController {
     private void delSelectedExtension() {
         String selectedItem = tableExtensions.getSelectionModel().getSelectedItem();
         tableExtensions.getItems().remove(selectedItem);
+        FinderAction.getInstance().setTableData(tableData);
     }
 
     /**
@@ -83,7 +95,6 @@ public class SearchOptionsController {
      */
     @FXML
     private void searchFiles() {
-        finderActionInterface.setTableData(tableData);
-        finderActionInterface.actionClickSearch();
+        FinderAction.getInstance().actionClickSearch();
     }
 }

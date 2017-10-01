@@ -1,7 +1,6 @@
 package finder.view.searchblock.searchresult;
 
 import finder.model.*;
-import finder.util.FinderActionInterface;
 import finder.util.eventhandlers.SearchInFileTaskOnSucceed;
 import finder.util.eventhandlers.ShowTaskOnSucceed;
 import finder.util.tasks.SearchInFileTask;
@@ -63,7 +62,7 @@ public class TabTemplateController {
     /**
      * Display file content in TextArea
      */
-    private void showText() {
+    private synchronized void showText() {
         // setting tab name to "Loading..."
         tab.setLoading();
         try {
@@ -89,7 +88,7 @@ public class TabTemplateController {
     /**
      * Searching text in file.
      */
-    private void search(SearchDirection direction) {
+    private synchronized void search(SearchDirection direction) {
         if (tab.isFree()) {
             tab.setDirection(direction);
             searchTextArea.setText(tab.getSearchText());

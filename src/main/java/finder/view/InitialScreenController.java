@@ -1,6 +1,6 @@
 package finder.view;
 
-import finder.util.FinderActionInterface;
+import finder.util.FinderAction;
 import finder.util.Resources;
 import finder.view.filetree.FileTreeController;
 import finder.view.searchblock.SearchBlockController;
@@ -14,13 +14,13 @@ import javafx.scene.control.SplitPane;
  */
 public class InitialScreenController {
 
-    private FinderActionInterface finderActionInterface;
+    ;
 
     @FXML
     private SplitPane mainSplitPane;
 
-    public InitialScreenController(FinderActionInterface finderActionInterface) {
-        this.finderActionInterface = finderActionInterface;
+    public InitialScreenController() {
+
     }
 
     @FXML
@@ -34,13 +34,13 @@ public class InitialScreenController {
             // Creating sub-elements for the scene.
 
             // Loading left pane.
-            SplitPane SplitLeft = finderActionInterface.load(this.getClass().getResource(
+            SplitPane SplitLeft = FinderAction.getInstance().load(this.getClass().getResource(
                     Resources.FXMLFileTree + "file_tree.fxml"),
-                    new FileTreeController(this.finderActionInterface));
+                    new FileTreeController());
             // Loading right pane.
-            SplitPane SplitRight = finderActionInterface.load(this.getClass().getResource(
+            SplitPane SplitRight = FinderAction.getInstance().load(this.getClass().getResource(
                     Resources.FXMLSearchBlock + "search_block.fxml"),
-                    new SearchBlockController(this.finderActionInterface));
+                    new SearchBlockController());
 
             // Adding top and bottom parts to main layout.
             mainSplitPane.getItems().addAll(SplitLeft, SplitRight);

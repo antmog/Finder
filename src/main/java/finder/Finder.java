@@ -1,7 +1,6 @@
 package finder;
 
-import finder.model.FinderInstance;
-import finder.util.FinderActionInterface;
+import finder.util.FinderAction;
 import finder.util.Resources;
 import finder.view.InitialScreenController;
 import javafx.application.Application;
@@ -17,7 +16,6 @@ public class Finder extends Application {
 
     private static Stage stage;
 
-
     @Override
     public void start(Stage stage) throws Exception {
         Finder.stage = stage;
@@ -28,8 +26,6 @@ public class Finder extends Application {
             Platform.exit();
             //System.exit(0);
         });
-        FinderInstance finderInstance = new FinderInstance();
-        FinderActionInterface finderActionInterface = new FinderActionInterface(finderInstance);
         //
         Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
             System.err.println("Got exception in thread.");
@@ -37,8 +33,8 @@ public class Finder extends Application {
         });
         try {
             // Load main layout from fxml file.
-            SplitPane view = finderActionInterface.load(getClass().getResource
-                    (Resources.FXML + "initial_screen.fxml"), new InitialScreenController(finderActionInterface));
+            SplitPane view = FinderAction.getInstance().load(getClass().getResource
+                    (Resources.FXML + "initial_screen.fxml"), new InitialScreenController());
             view.getStylesheets().add(Resources.CSS + "finder.css");
             // Shows the scene containing the main layout.
             Scene scene = new Scene(view);

@@ -1,8 +1,11 @@
 package finder.util;
 
+import finder.Finder;
 import finder.model.FinderInstance;
 import javafx.scene.control.CheckBoxTreeItem;
 import javafx.scene.control.TreeItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -15,19 +18,19 @@ public class ResultTreeCreateLogic {
      * @param listOfDirs List of directories containing files we search for (and files).
      * @param sb         Text to search.
      */
-    public static void showResultFileTree(StringBuffer sb, List<File> listOfDirs, FinderActionInterface finderActionInterface) {
-        FinderInstance finderInstance = finderActionInterface.getFinderInstance();
+    public static void showResultFileTree(StringBuffer sb, List<File> listOfDirs ) {
+        FinderInstance finderInstance = FinderAction.getInstance().getFinderInstance();
         // creating new tree from root of main tree (where folders to search are selected)
         // suppress warning? i swear finderInstance.getFileTree().getRoot() is a tree item
         TreeItem<String> resultRootItem = new TreeItem<>((finderInstance.getFileTree().getRoot()).getValue());
         generateResultTree(resultRootItem, listOfDirs);
         finderInstance.getResultFileTree().setSearchText(sb.toString());
         // delete listener
-        finderActionInterface.deleteSelectionListener(finderInstance.getResultFileTree());
+        FinderAction.getInstance().deleteSelectionListener(finderInstance.getResultFileTree());
         // refresh result tree
         finderInstance.getResultFileTree().setRoot(resultRootItem);
         // add listener
-        finderActionInterface.addSelectionListener(finderInstance.getResultFileTree());
+        FinderAction.getInstance().addSelectionListener(finderInstance.getResultFileTree());
     }
 
     /**
@@ -97,15 +100,23 @@ public class ResultTreeCreateLogic {
     private static void addItem(TreeItem<String> resultRootItem, File item) {
         TreeItem<String> treeItem = new TreeItem<>(FileSystemLogic.getShortFileName(item));
         resultRootItem.getChildren().add(treeItem);
+        Image fileImage;
         if (item.isFile()) {
             // Any custom visualisation for tree node wich is not folder (file) (for better view).
-            // ->>
+            fileImage = new Image(Finder.class.getResourceAsStream(Resources.IMG + "file.png"),
+                    12,14,false,true);
+            treeItem.setGraphic(new ImageView(fileImage));
             // expands all parent directories of file found
             while (treeItem.getParent() != null) {
                 treeItem = treeItem.getParent();
                 treeItem.setExpanded(true);
             }
+        }else{
+            fileImage = new Image(Finder.class.getResourceAsStream(Resources.IMG + "folder.png"),
+                    14,14,false,true);
+            treeItem.setGraphic(new ImageView(fileImage));
         }
+
     }
 
 

@@ -11,7 +11,7 @@ import java.io.File;
 /**
  * Interface used to set parameters of FinderInstance.
  */
-public interface SetFinderInstanceParams {
+public interface SetInstanceParamsInterface {
     /**
      * Create new tab in tabPane with @file opened.
      *

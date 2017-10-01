@@ -14,11 +14,11 @@
         </TableView>
         <Label layoutX="14.0" layoutY="11.0" text="Search parameters." AnchorPane.topAnchor="11.0"/>
         <TextField fx:id="addExtensionText" layoutX="11.0" layoutY="64.0" prefHeight="25.0" prefWidth="66.0"/>
-        <Button layoutX="84.0" layoutY="64.0" mnemonicParsing="false" onAction="#addExtension" prefHeight="25.0"
+        <Button fx:id  ="addButton" layoutX="84.0" layoutY="64.0" mnemonicParsing="false" onAction="#addExtension" prefHeight="25.0"
                 prefWidth="66.0" text="Add"/>
         <Label layoutX="14.0" layoutY="41.0" text="Chose 1 or more extensions:"/>
-        <Button layoutX="156.0" layoutY="64.0" mnemonicParsing="false" onAction="#delSelectedExtension"
+        <Button fx:id ="delButton" layoutX="156.0" layoutY="64.0" mnemonicParsing="false" onAction="#delSelectedExtension"
                 prefHeight="25.0" prefWidth="66.0" text="Delete"/>
-        <Button fx:id="searchFilesButton" layoutX="132.0" layoutY="6.0" mnemonicParsing="false" onAction="#searchFiles"
+        <Button fx:id="searchButton" layoutX="132.0" layoutY="6.0" mnemonicParsing="false" onAction="#searchFiles"
                 prefHeight="27.0" prefWidth="90.0" text="Search"/>
 </AnchorPane>

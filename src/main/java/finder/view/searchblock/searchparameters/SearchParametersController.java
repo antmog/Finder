@@ -1,6 +1,6 @@
 package finder.view.searchblock.searchparameters;
 
-import finder.util.FinderActionInterface;
+import finder.util.FinderAction;
 import finder.util.Resources;
 import javafx.fxml.FXML;
 import javafx.geometry.Orientation;
@@ -13,13 +13,13 @@ import javafx.scene.layout.AnchorPane;
  */
 public class SearchParametersController {
 
-    private FinderActionInterface finderActionInterface;
+    ;
 
     @FXML
     private SplitPane splitTop;
 
-    public SearchParametersController(FinderActionInterface finderActionInterface) {
-        this.finderActionInterface = finderActionInterface;
+    public SearchParametersController() {
+
     }
 
     @FXML
@@ -28,13 +28,13 @@ public class SearchParametersController {
             // Elements of top part of interface.
 
             // Search text area.
-            TextArea textArea = finderActionInterface.load(this.getClass().getResource(
+            TextArea textArea = FinderAction.getInstance().load(this.getClass().getResource(
                     Resources.FXMLSearchParameters + "text_area.fxml"),
-                    new TextAreaController(this.finderActionInterface));
+                    new TextAreaController());
             // Search options block.
-            AnchorPane searchOptionsBlock = finderActionInterface.load(this.getClass().getResource(
+            AnchorPane searchOptionsBlock = FinderAction.getInstance().load(this.getClass().getResource(
                     Resources.FXMLSearchParameters + "search_options_block.fxml"),
-                    new SearchOptionsController(this.finderActionInterface));
+                    new SearchOptionsBlockController());
             searchOptionsBlock.getStylesheets().add(Resources.CSS + "search_options_block.css");
 
             // Wrapping search options block into Anchor Pane (for better visualisation).
@@ -44,7 +44,7 @@ public class SearchParametersController {
 
 
             // Setting searchOptionsBlock for FinderInstance
-            finderActionInterface.setSearchOptionsBlock(searchOptionsBlock);
+            FinderAction.getInstance().setSearchOptionsBlock(searchOptionsBlock);
 
             // Filling top part of interface with sub-elements.
             splitTop.setOrientation(Orientation.HORIZONTAL);

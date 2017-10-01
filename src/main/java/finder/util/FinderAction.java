@@ -3,29 +3,47 @@ package finder.util;
 import finder.model.*;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static finder.util.FileSystemLogic.CheckIfRoot;
 import static finder.util.FileSystemLogic.getShortFileName;
 
 
 /**
- * Implementation of Action interface, SetFinderInstanceParams + keeps finderInstance.
+ * Implementation of Action interface, SetInstanceParamsInterface + keeps finderInstance.
  */
-public class FinderActionInterface implements ActionsInterface, SetFinderInstanceParams {
+public class FinderAction implements ActionsInterface, SetInstanceParamsInterface {
     private FinderInstance finderInstance;
-    ChangeListener<TreeItem<String>> changeListener;
+    private static volatile FinderAction instance;
 
-    public FinderActionInterface(FinderInstance finderInstance) {
-        this.finderInstance = finderInstance;
-        TaskExecutor.getInstance();
+    public static FinderAction getInstance() {
+        FinderAction localInstance = instance;
+        if (localInstance == null) {
+            synchronized (FinderAction.class) {
+                localInstance = instance;
+                if (localInstance == null) {
+                    instance = localInstance = new FinderAction();
+                }
+            }
+        }
+        return localInstance;
     }
+    private FinderAction(){
+        finderInstance = new FinderInstance();
+    }
+
+    ChangeListener<TreeItem<String>> changeListener;
 
     public FinderInstance getFinderInstance() {
         return finderInstance;
@@ -63,9 +81,14 @@ public class FinderActionInterface implements ActionsInterface, SetFinderInstanc
             new WarningWindow("Enter the text you are going to search pls.");
         } else {
             // disabling part of application, while searching file, making application safe
-            finderInstance.getSearchOptionsBlock().setDisable(true);
+            finderInstance.getAddButton().setDisable(true);
+            finderInstance.getDelButton().setDisable(true);
+            finderInstance.getAddExtensionTextField().setDisable(true);
+            finderInstance.getSearchButton().setText("Stop");
             finderInstance.getFileTreePane().setDisable(true);
-            FileSearchLogic.searchFiles(this);
+            ExecutorService exec = Executors.newCachedThreadPool();
+            finderInstance.getSearchButton().setOnAction(event -> FileSearchLogic.stopSearch(exec));
+            FileSearchLogic.searchFiles(exec);
         }
     }
 

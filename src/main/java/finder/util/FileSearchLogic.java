@@ -2,8 +2,11 @@ package finder.util;
 
 import finder.model.FinderInstance;
 import finder.model.TaskExecutor;
+import finder.view.searchblock.searchparameters.SearchOptionsBlockController;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.CheckBoxTreeItem;
 import javafx.scene.control.TreeItem;
 import org.apache.commons.io.FilenameUtils;
@@ -12,13 +15,14 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
 
 public class FileSearchLogic {
     /**
      * Searching files full action.
      **/
-    public static void searchFiles(FinderActionInterface finderActionInterface) {
-        FinderInstance finderInstance = finderActionInterface.getFinderInstance();
+    public static void searchFiles(ExecutorService exec) {
+        FinderInstance finderInstance = FinderAction.getInstance().getFinderInstance();
         // text from textArea
         StringBuffer sb = new StringBuffer(finderInstance.getTextArea().getText());
         // list for keeping search results, contains:
@@ -27,20 +31,31 @@ public class FileSearchLogic {
         ArrayList<File> listOfDirs = new ArrayList<>();
         // array of extensions of files program is searching for
         Object[] extensions = finderInstance.getTableData().toArray();
-        TaskExecutor.getInstance().executeTask(new Task<Void>() {
+        exec.execute(new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 // searching files and making form for result tree
                 searchInTree(finderInstance.getFileTree().getRoot(), listOfDirs, sb, extensions);
                 Platform.runLater(() -> {
                     // generating result tree
-                    ResultTreeCreateLogic.showResultFileTree(sb, listOfDirs, finderActionInterface);
-                    finderInstance.getSearchOptionsBlock().setDisable(false);
-                    finderInstance.getFileTreePane().setDisable(false);
+                    ResultTreeCreateLogic.showResultFileTree(sb, listOfDirs);
+                    stopSearch(exec);
                 });
                 return null;
             }
         });
+    }
+
+    public static void stopSearch(ExecutorService exec){
+        FinderInstance finderInstance = FinderAction.getInstance().getFinderInstance();
+        finderInstance.getAddButton().setDisable(false);
+        finderInstance.getDelButton().setDisable(false);
+        finderInstance.getAddExtensionTextField().setDisable(false);
+        finderInstance.getFileTreePane().setDisable(false);
+
+        finderInstance.getSearchButton().setText("Search");
+        finderInstance.getSearchButton().setOnAction(event -> FinderAction.getInstance().actionClickSearch());
+        exec.shutdown();
     }
 
     /**
@@ -81,6 +96,8 @@ public class FileSearchLogic {
                     for (Object object : extensions) {
                         String extension = (String) object;
                         if (FilenameUtils.getExtension(file.getName()).equals(extension)) {
+                            // MTT HERE
+
                             //Check if there is "sb" text in file
                             if (searchInFile(file, sb)) {
                                 //add file if found text

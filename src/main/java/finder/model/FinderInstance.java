@@ -1,9 +1,6 @@
 package finder.model;
 import javafx.collections.ObservableList;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 
 /**
@@ -16,8 +13,46 @@ public class FinderInstance {
     private TabPane resultTabPane;                              // TabPane containing tabs
     private ObservableList<String> tableData;                   // Table with extensions data
 
-    private AnchorPane searchOptionsBlock;                      // All searchOptions block
     private SplitPane fileTreePane;                             // All left part (addUrl + main tree)
+    private AnchorPane searchOptionsBlock;                      // All searchOptions block
+
+    private Button addButton;                                   // buttons of searchOptionsBlock
+    private Button delButton;                                   //
+    private Button searchButton;                                //
+    private TextField addExtensionTextField;                    // textfield of searchOptionsBlock
+
+    public TextField getAddExtensionTextField() {
+        return addExtensionTextField;
+    }
+
+    public void setAddExtensionTextField(TextField addExtensionTextField) {
+        this.addExtensionTextField = addExtensionTextField;
+    }
+
+    public Button getAddButton() {
+        return addButton;
+    }
+
+    public void setAddButton(Button addButton) {
+        this.addButton = addButton;
+    }
+
+    public Button getDelButton() {
+        return delButton;
+    }
+
+    public void setDelButton(Button delButton) {
+        this.delButton = delButton;
+    }
+
+    public Button getSearchButton() {
+        return searchButton;
+    }
+
+    public void setSearchButton(Button searchButton) {
+        this.searchButton = searchButton;
+    }
+
 
     public SplitPane getFileTreePane() {
         return fileTreePane;

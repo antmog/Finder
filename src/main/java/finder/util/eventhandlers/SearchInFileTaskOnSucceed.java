@@ -19,7 +19,7 @@ public class SearchInFileTaskOnSucceed implements EventHandler<WorkerStateEvent>
     }
 
     @Override
-    public void handle(WorkerStateEvent event) {
+    public synchronized void handle(WorkerStateEvent event) {
         if (tab.searchResult()) {
             // if search is successful -> reloading content
             try {
