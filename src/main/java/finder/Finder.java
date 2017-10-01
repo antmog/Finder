@@ -1,5 +1,6 @@
 package finder;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
 import finder.util.FinderAction;
 import finder.util.Resources;
 import finder.view.InitialScreenController;
@@ -11,6 +12,8 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.File;
+
 
 public class Finder extends Application {
 
@@ -21,6 +24,10 @@ public class Finder extends Application {
         Finder.stage = stage;
         Finder.stage.setTitle("Finder");
         Finder.stage.initStyle(StageStyle.UNIFIED);
+        System.out.println(Resources.IMG+"icon.png");
+        System.out.println(System.lineSeparator().length());
+
+
         Finder.stage.getIcons().add(new Image(getClass().getResource(Resources.IMG + "icon.png").toString()));
         Finder.stage.setOnCloseRequest(event -> {
             Platform.exit();

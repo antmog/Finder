@@ -49,8 +49,13 @@ public class TabTemplateController {
         // analyzing file
         try (OptimizedRandomAccessFile oRaf = new OptimizedRandomAccessFile(tab.getFile(), "r")) {
             oRaf.seek(0);
+
             tab.setLineLength(oRaf.readLine().length() + 1);
+            System.out.println(tab.getLineLength());
             tab.setLineCount(oRaf.length() / (tab.getLineLength() + 1));
+            System.out.println(oRaf.length());
+            System.out.println(tab.getLineCount());
+
             // calculating buffer size according to line length
             bufferSize = (8192 / (Math.toIntExact(tab.getLineLength()) + 1)) * Math.toIntExact(tab.getLineLength() + 1);
         } catch (Exception e) {

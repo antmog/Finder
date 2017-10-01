@@ -13,8 +13,6 @@ import java.util.ArrayList;
 
 public class TreeController {
 
-    ;
-
     @FXML
     private TreeView<String> fileTree;
 
