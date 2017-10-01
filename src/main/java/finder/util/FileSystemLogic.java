@@ -19,8 +19,8 @@ public class FileSystemLogic {
         try {
             filePath.append(item.getValue());
             while ((item = item.getParent() )!= null) {
-                if (!item.getValue().endsWith("\\")) {
-                    filePath.insert(0, item.getValue() + "\\");
+                if (!item.getValue().endsWith(File.separator)) {
+                    filePath.insert(0, item.getValue() + File.separator);
                 } else if (!item.getValue().equals("Roots:" + File.separator)) {
                     filePath.insert(0, item.getValue());
                 }

@@ -53,7 +53,7 @@ public class FinderAction implements ActionsInterface, SetInstanceParamsInterfac
     public String addUrlRoot(String url) {
         File folder;
         if (url.endsWith(":")) {
-            folder = new File(url + "\\");
+            folder = new File(url + File.separator);
         } else {
             folder = new File(url);
         }
@@ -69,7 +69,7 @@ public class FinderAction implements ActionsInterface, SetInstanceParamsInterfac
     }
 
     @Override
-    public <T, T1> T load(URL url, T1 controller) throws IOException {
+    public <NodeType,ControllerType> NodeType load(URL url, ControllerType controller) throws IOException {
         FXMLLoader loader = new FXMLLoader(url);
         loader.setController(controller);
         return loader.load();
