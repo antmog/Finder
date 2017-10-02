@@ -29,15 +29,22 @@ public class SearchInFileTask extends Task<Void> {
     public Void call() throws IOException {
         int indexInLine;
         // position = numberOfLine(searchPointer)*(line length+1) : as long as line separator takes 1 more symbol ...
-        oRaf.seek(tab.getSearchPointer() * tab.getLineLength() + tab.getSearchPointer());
+        System.out.println("POS: "+ tab.getSearchPointer() * tab.getLineLength() + tab.getSearchPointer());
+        System.out.println("SearchPointer: "+ tab.getSearchPointer() );
+
+        oRaf.seek(tab.getSearchPointer() * tab.getLineLength());
         String line;
         while ((line = oRaf.readLineCustom()) != null) {
+            System.out.println("Line: " + line);
+            System.out.println(line.length());
+            System.out.println("Searchtext: "+tab.getSearchText());
             //if(line.contains(tab.getSearchText())){
             if ((indexInLine = line.indexOf(tab.getSearchText())) != -1) {
                 // setting index in line
+                System.out.println(indexInLine);
                 tab.setIndexOfFoundTextInLine(indexInLine);
                 // getting number of line of found element from pointer
-                tab.setFindElementLine((oRaf.getActualPos() / (tab.getLineLength() + 1)) - 1);
+                tab.setFindElementLine(oRaf.getActualPos() / tab.getLineLength() - 1);
                 tab.setSearchPointer(tab.getFindElementLine());
                 tab.setSearchPosition(tab.getFindElementLine());
                 // setting first displayed line as number of line of found element

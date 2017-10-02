@@ -10,6 +10,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 public class TabTemplateController {
 
     private FileTab tab;
@@ -47,20 +51,25 @@ public class TabTemplateController {
         tab.setElements(textArea, showLinesCount, rowNumbers, lineCount);
         searchTextArea.setText(tab.getSearchText());
         // analyzing file
+        System.out.println("RAF"+ System.currentTimeMillis());
         try (OptimizedRandomAccessFile oRaf = new OptimizedRandomAccessFile(tab.getFile(), "r")) {
             oRaf.seek(0);
-
-            tab.setLineLength(oRaf.readLine().length() + 1);
-            System.out.println(tab.getLineLength());
-            tab.setLineCount(oRaf.length() / (tab.getLineLength() + 1));
-            System.out.println(oRaf.length());
+            tab.setLineLength(oRaf.readLine().length()+System.lineSeparator().length());
+            tab.setLineCount((oRaf.length()+System.lineSeparator().length()) / tab.getLineLength());
             System.out.println(tab.getLineCount());
-
+            System.out.println("RAF"+ System.currentTimeMillis());
             // calculating buffer size according to line length
             bufferSize = (8192 / (Math.toIntExact(tab.getLineLength()) + 1)) * Math.toIntExact(tab.getLineLength() + 1);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("URA" + System.currentTimeMillis());
+        try {
+            System.out.println(Files.lines(Paths.get(tab.getFile().getAbsolutePath())).count());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("URA" + System.currentTimeMillis());
         showText();
     }
 

@@ -21,8 +21,12 @@ public class ShowTaskOnSucceed implements EventHandler<WorkerStateEvent> {
         tab.getRowNumbers().setText(tab.getRowNumbersBuffer().toString());
         if (tab.searchResult()) {
             // if search in file succeed => selecting elements in text area
+            System.out.println("Findeleline: "+ tab.getFindElementLine());
+            System.out.println("StartLineNum: "+ tab.getStartLineNumber());
+            System.out.println("Index: " + tab.getIndexOfFoundTextInLine());
             int startOfSelection = Math.toIntExact(((tab.getFindElementLine() - tab.getStartLineNumber()) *
-                    tab.getLineLength()) + tab.getIndexOfFoundTextInLine());
+                    tab.getLineLength()));// + tab.getIndexOfFoundTextInLine()
+            System.out.println("Target: " + startOfSelection);
             tab.getTextArea().selectRange(
                     startOfSelection, startOfSelection + tab.getSearchText().length());
             // setting search flag to initial state (false)
