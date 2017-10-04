@@ -31,7 +31,7 @@ public class Finder extends Application {
         Finder.stage.getIcons().add(new Image(getClass().getResource(Resources.IMG + "icon.png").toString()));
         Finder.stage.setOnCloseRequest(event -> {
             Platform.exit();
-            //System.exit(0);
+            System.exit(0);
         });
         //
         Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
@@ -52,7 +52,7 @@ public class Finder extends Application {
         } catch (Exception ex) {
             ex.printStackTrace();
             Platform.exit();
-            //System.exit(0);
+            System.exit(0);
         }
     }
 

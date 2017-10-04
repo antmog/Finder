@@ -46,6 +46,8 @@ public class OptimizedRandomAccessFile extends RandomAccessFile {
         charBuffer = new char[bufferSize];
     }
 
+
+
     /**
      * Returns actual position.
      */
@@ -58,13 +60,11 @@ public class OptimizedRandomAccessFile extends RandomAccessFile {
      * Throws:
      * java.io.IOException
      */
-    // public synchronized String readLineCustom() throws IOException {
     public String readLineCustom() throws IOException {
         return readLine(false);
     }
 
     private void fill() throws IOException {
-
         lastOffset = this.getFilePointer();
         actualFilePointer = lastOffset;
         byte[] buffer = new byte[bufferSize];
@@ -101,8 +101,8 @@ public class OptimizedRandomAccessFile extends RandomAccessFile {
         int separatorIndex = 0;
 
         boolean omitLF = ignoreLF || skipLF;
-        
-        for (; ; ) {
+
+        for (;;) {
 
             if (nextChar >= nChars) {
                 fill();
@@ -126,7 +126,6 @@ public class OptimizedRandomAccessFile extends RandomAccessFile {
             }
             skipLF = false;
             omitLF = false;
-
 
             for (i = nextChar; i < nChars; i++) {
                 c = charBuffer[i];

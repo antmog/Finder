@@ -3,6 +3,8 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 
+import java.io.BufferedReader;
+
 /**
  * Instance of application.
  */
@@ -20,6 +22,16 @@ public class FinderInstance {
     private Button delButton;                                   //
     private Button searchButton;                                //
     private TextField addExtensionTextField;                    // textfield of searchOptionsBlock
+
+    private BufferedReader searchInFileReader;                                  // reader for initial text search (in file).
+
+    public BufferedReader getSearchInFileReader() {
+        return searchInFileReader;
+    }
+
+    public void setSearchInFileReader(BufferedReader searchInFileReader) {
+        this.searchInFileReader = searchInFileReader;
+    }
 
     public TextField getAddExtensionTextField() {
         return addExtensionTextField;

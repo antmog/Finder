@@ -77,6 +77,7 @@ public class FinderAction implements ActionsInterface, SetInstanceParamsInterfac
 
     @Override
     public void actionClickSearch() {
+        finderInstance.getTextArea().setText("text");
         if (finderInstance.getTextArea().getText().equals("")) {
             new WarningWindow("Enter the text you are going to search pls.");
         } else {

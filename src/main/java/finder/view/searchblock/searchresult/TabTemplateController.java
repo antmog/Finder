@@ -3,14 +3,17 @@ package finder.view.searchblock.searchresult;
 import finder.model.*;
 import finder.util.eventhandlers.SearchInFileTaskOnSucceed;
 import finder.util.eventhandlers.ShowTaskOnSucceed;
+import finder.util.tasks.CheckShowParamsTask;
 import finder.util.tasks.SearchInFileTask;
 import finder.util.tasks.ShowTask;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -44,6 +47,9 @@ public class TabTemplateController {
         this.tab = tab;
         tab.setStartLineNumber(0);
         tab.setSearchPointer(0);
+        tab.setFileLength(0);
+        tab.setLineCount(0);
+        tab.addLine(0L, 0L);
     }
 
     @FXML
@@ -51,25 +57,18 @@ public class TabTemplateController {
         tab.setElements(textArea, showLinesCount, rowNumbers, lineCount);
         searchTextArea.setText(tab.getSearchText());
         // analyzing file
-        System.out.println("RAF"+ System.currentTimeMillis());
         try (OptimizedRandomAccessFile oRaf = new OptimizedRandomAccessFile(tab.getFile(), "r")) {
-            oRaf.seek(0);
+            /*oRaf.seek(0);
             tab.setLineLength(oRaf.readLine().length()+System.lineSeparator().length());
             tab.setLineCount((oRaf.length()+System.lineSeparator().length()) / tab.getLineLength());
-            System.out.println(tab.getLineCount());
-            System.out.println("RAF"+ System.currentTimeMillis());
+            System.out.println("Line length: "+tab.getLineLength());
+            System.out.println("Lines count: " + tab.getLineCount());
+            System.out.println("Raf length: " + oRaf.length());
             // calculating buffer size according to line length
-            bufferSize = (8192 / (Math.toIntExact(tab.getLineLength()) + 1)) * Math.toIntExact(tab.getLineLength() + 1);
+            */
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("URA" + System.currentTimeMillis());
-        try {
-            System.out.println(Files.lines(Paths.get(tab.getFile().getAbsolutePath())).count());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println("URA" + System.currentTimeMillis());
         showText();
     }
 
@@ -79,10 +78,11 @@ public class TabTemplateController {
     private synchronized void showText() {
         // setting tab name to "Loading..."
         tab.setLoading();
+        System.out.println("showstart");
         try {
-            OptimizedRandomAccessFile oRaf = new OptimizedRandomAccessFile(tab.getFile(), "r", bufferSize);
-            ShowTask showTask = new ShowTask(tab, oRaf);
-            showTask.setOnSucceeded(new ShowTaskOnSucceed(tab));
+            oRaf = new OptimizedRandomAccessFile(tab.getFile(), "r", 8192);
+            ShowTask showTask = new ShowTask(tab, oRaf,this);
+            showTask.setOnSucceeded(new ShowTaskOnSucceed(tab,showTask,oRaf,this));
             TaskExecutor.getInstance().executeTask(showTask);
         } catch (Exception e) {
             e.printStackTrace();
@@ -115,12 +115,14 @@ public class TabTemplateController {
                     // in this app realised on top levels so when buffer = line length , buffer in readLineCustom()
                     // refreshes after 1 iteration of readLineCustom().
                     // because of that method works much slower
-                    oRaf = new OptimizedRandomAccessFile(tab.getFile(), "r", Math.toIntExact(tab.getLineLength() + 1));
+                    //oRaf = new OptimizedRandomAccessFile(tab.getFile(), "r", Math.toIntExact(tab.getLineLength()));
+                    oRaf = new OptimizedRandomAccessFile(tab.getFile(), "r", 1);
                 } else {
-                    oRaf = new OptimizedRandomAccessFile(tab.getFile(), "r", bufferSize);
+                    //oRaf = new OptimizedRandomAccessFile(tab.getFile(), "r", bufferSize);
+                    oRaf = new OptimizedRandomAccessFile(tab.getFile(), "r", 8192);
                 }
-                SearchInFileTask searchInFileTask = new SearchInFileTask(tab,oRaf);
-                searchInFileTask.setOnSucceeded(new SearchInFileTaskOnSucceed(tab,oRaf));
+                SearchInFileTask searchInFileTask = new SearchInFileTask(tab, oRaf);
+                searchInFileTask.setOnSucceeded(new SearchInFileTaskOnSucceed(tab, oRaf,this));
                 TaskExecutor.getInstance().executeTask(searchInFileTask);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -135,8 +137,7 @@ public class TabTemplateController {
     private void goTo() {
         if (tab.isFree()) {
             tab.setStartLineNumber(Long.parseLong(numberOfRow.getText()));
-            tab.setSearchPointer(tab.getStartLineNumber());
-            showText();
+            checkShowParamsOnAction();
         } else {
             new WarningWindow("Cant operate with text while information is loading.");
         }
@@ -174,8 +175,7 @@ public class TabTemplateController {
             if (tab.getStartLineNumber() < 0) {
                 tab.setStartLineNumber(0);
             }
-            tab.setSearchPointer(tab.getStartLineNumber());
-            showText();
+            checkShowParamsOnAction();
         } else {
             new WarningWindow("Cant operate with text while information is loading.");
         }
@@ -187,13 +187,13 @@ public class TabTemplateController {
     @FXML
     private void down() {
         if (tab.isFree()) {
+            System.out.println("DOWN.");
             tab.setShowLinesCountFromField(showLinesCount.getText());
             tab.setStartLineNumber(tab.getStartLineNumber() + tab.getShowLinesCount());
             if (tab.getStartLineNumber() < 0) {
                 tab.setStartLineNumber(Long.MAX_VALUE - tab.getShowLinesCount());
             }
-            tab.setSearchPointer(tab.getStartLineNumber());
-            showText();
+            checkShowParamsOnAction();
         } else {
             new WarningWindow("Cant operate with text while information is loading.");
         }
@@ -213,6 +213,17 @@ public class TabTemplateController {
             new WarningWindow("Cant operate with text while information is loading.");
         }
 
+    }
+
+    private synchronized void checkShowParamsOnAction(){
+        tab.setLoading();
+        CheckShowParamsTask checkShowParamsTask = new CheckShowParamsTask(tab);
+        checkShowParamsTask.setOnSucceeded(event -> {
+            showText();
+            tab.setSearchPointer(tab.getStartLineNumber());
+
+        });
+        TaskExecutor.getInstance().executeTask(checkShowParamsTask);
     }
 
 }

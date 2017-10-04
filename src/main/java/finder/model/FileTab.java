@@ -1,8 +1,13 @@
 package finder.model;
+
 import javafx.scene.Node;
 import javafx.scene.control.*;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Tab with file opened for navigation and search.
@@ -18,18 +23,24 @@ public class FileTab {
 
     private Tab tab;
 
-    private boolean loading = false;                        // loading flag (active when operations with file are being performed)
+    private boolean loading = false;              // loading flag (active when operations with file are being performed)
 
     private StringBuffer tabStringBuffer = new StringBuffer();        // Tab's own stringbuffer
 
-    private long showLinesCount = DEFAULT_STEP;              // number of displayed lines
+    private long showLinesCount = DEFAULT_STEP;             // number of displayed lines
     private long startLineNumber;                           // first line of displayed part of file
 
-    private long lineLength;                                // length of line (see also OptimizedRandomAccessFile.java.readLine())
+    private long lineLength;                      // length of line (see also OptimizedRandomAccessFile.java.readLine())
     private long lineCount;                                 // count of lines in file
+    private long fileLength;                                // length of file
+    private HashMap<Long,LineInfo> lines = new HashMap<>();
+    //private HashMap<Long, Long> lines = new HashMap<>();                      // lines with each line start position
+    // line number 0..N:start position   <=> line number 1..N (means as we get 0 line as 1): line after this position
+    private Long lastKey;
 
     private SearchDirection direction = SearchDirection.FORWARD;
-    private long searchPosition = 0;                        // additional position pointer (current line) for search operations
+    private long searchPosition = 0;                // additional position pointer (current line) for search operations
+                                                    // needed for change direction logic
     private long searchPointer;                             // position pointer (line to be checked next)
     private long findElementLine = -1;                      // line where the last searched item was found
 
@@ -59,6 +70,7 @@ public class FileTab {
 
     /**
      * Setting tab scene elements.
+     *
      * @param textArea
      * @param showLinesCountField
      * @param rowNumbers
@@ -111,6 +123,47 @@ public class FileTab {
         this.showLinesCount = DEFAULT_STEP;
     }
 
+    public long getFileLength() {
+        return fileLength;
+    }
+
+    public void setFileLength(long fileLength) {
+        this.fileLength = fileLength;
+    }
+
+    public Long getLinePos(Long lineNumber) {
+        return this.lines.get(lineNumber)==null?null:this.lines.get(lineNumber).getLinePos();
+
+    }
+
+    public boolean getLineContains(Long lineNumber) {
+        return this.lines.get(lineNumber).isContains();
+    }
+    /**
+     * Add line to hashmap and mark last added line number as lastKey (sorting hashMap and taking last = much time).
+     * @param lineNumber
+     * @param linePosition
+     */
+    public void addLine(Long lineNumber, Long linePosition) {
+        this.lines.put(lineNumber, new LineInfo(linePosition));
+        lastKey=lineNumber;
+    }
+
+    public void lineSetContains(Long lineNumber, Long linePosition, boolean contains) {
+        this.lines.put(lineNumber, new LineInfo(linePosition,contains));
+    }
+
+    /**
+     * Get last entry key which is manually marked while adding line. Doesn't take much time.
+     * @return
+     */
+    public Long getLastLineKey(){
+        return lastKey;
+    }
+    public HashMap<Long,LineInfo> getLines(){
+        return this.lines;
+    }
+
     /**
      * Writing FileTab showLines value to showLinesCount TextField
      */
@@ -133,9 +186,12 @@ public class FileTab {
      */
     public void writeFromTabStringBuffer() {
         this.textArea.setText(tabStringBuffer.toString());
-        this.tabStringBuffer = new StringBuffer();
+        clearTabStringBuffer();
     }
 
+    public void clearTabStringBuffer(){
+        this.tabStringBuffer = new StringBuffer();
+    }
     public void writeToTabStringBuffer(String content) {
         this.tabStringBuffer.append(content);
     }

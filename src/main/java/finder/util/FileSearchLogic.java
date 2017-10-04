@@ -14,6 +14,7 @@ import org.apache.commons.io.FilenameUtils;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 
@@ -31,14 +32,16 @@ public class FileSearchLogic {
         ArrayList<File> listOfDirs = new ArrayList<>();
         // array of extensions of files program is searching for
         Object[] extensions = finderInstance.getTableData().toArray();
-        exec.execute(new Task<Void>() {
+        TaskExecutor.getInstance().executeTask(new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 // searching files and making form for result tree
                 searchInTree(finderInstance.getFileTree().getRoot(), listOfDirs, sb, extensions);
                 Platform.runLater(() -> {
                     // generating result tree
-                    ResultTreeCreateLogic.showResultFileTree(sb, listOfDirs);
+                    if(finderInstance.getSearchButton().getText().equals("Stop")){
+                        ResultTreeCreateLogic.showResultFileTree(sb, listOfDirs);
+                    }
                     stopSearch(exec);
                 });
                 return null;
@@ -52,10 +55,15 @@ public class FileSearchLogic {
         finderInstance.getDelButton().setDisable(false);
         finderInstance.getAddExtensionTextField().setDisable(false);
         finderInstance.getFileTreePane().setDisable(false);
-
         finderInstance.getSearchButton().setText("Search");
         finderInstance.getSearchButton().setOnAction(event -> FinderAction.getInstance().actionClickSearch());
+        try {
+            finderInstance.getSearchInFileReader().close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         exec.shutdown();
+
     }
 
     /**
@@ -121,16 +129,18 @@ public class FileSearchLogic {
      */
     private static boolean searchInFile(File file, StringBuffer sb) {
         boolean find = false;
-        try (BufferedReader in = new BufferedReader(new FileReader(file))) {
+        try (BufferedReader searchInFileReader = new BufferedReader(new FileReader(file))) {
+            FinderInstance finderInstance = FinderAction.getInstance().getFinderInstance();
+            finderInstance.setSearchInFileReader(searchInFileReader);
             String line;
-            while ((line = in.readLine()) != null) {
+            while ((line = searchInFileReader.readLine()) != null) {
                 if (line.contains(sb.toString())) {
                     find = true;
                     break;
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println(e.getMessage()); // button STOP SEARCH causes stream to be closed.
         }
         return find;
     }
