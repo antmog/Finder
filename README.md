@@ -1,8 +1,8 @@
 ![Logo of the project](https://lh4.googleusercontent.com/jMMn2i2lQv9cNeEmH-BKEdI9irUGCcsSA5Fx5TZ68MdT1Z0AXkCadXunA8aYhxVLFD1P38KcobikxFA=w1504-h871)
 # FinderApp
 
-Desktop application to search log files(text files) with specified extension in file tree and network* , 
-containing specified text, allows read(navigation)/search text inside this files (also 1GB+).
+Desktop application to search log files(text files),containing specified text in file tree and network* , 
+, allows to specify files extension, read(navigation)/search text inside this files (also 1GB+).
 > \* no tests for search in network
 > Application uses JavaFX
 
