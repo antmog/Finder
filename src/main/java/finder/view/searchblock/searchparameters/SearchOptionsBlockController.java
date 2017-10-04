@@ -88,7 +88,7 @@ public class SearchOptionsBlockController {
      */
     private void initData() {
         tableData.add("log");
-        tableData.add("txt");
+        //tableData.add("txt");
     }
 
     /**

@@ -2,6 +2,7 @@ group 'Finder'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'application'
 
 sourceCompatibility = 1.8
 
@@ -18,3 +19,5 @@ jar {
     baseName = 'Finder-gradle'
     version =  '0.1.0'
 }
+
+mainClassName = 'finder.Finder'
