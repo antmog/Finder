@@ -18,12 +18,11 @@ gradlew build
 gradlew run
 ```
 
-This is how you get project cloned to Finder/ of current directory and run project using gradlew.
+Project cloned to Finder/ of current directory; run project using gradlew.
 
 ## Developing
 
-What a developer must do in order to start developing
-the project further:
+To get project:
 
 ```shell
 git clone https://github.com/antmog/Finder.git
