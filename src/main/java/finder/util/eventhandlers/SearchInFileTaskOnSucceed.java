@@ -10,6 +10,9 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import java.io.FileNotFoundException;
 
+/**
+ * Handler for SearchInFileTask success.
+ */
 public class SearchInFileTaskOnSucceed implements EventHandler<WorkerStateEvent> {
     private FileTab tab;
     private OptimizedRandomAccessFile oRaf;
@@ -23,6 +26,7 @@ public class SearchInFileTaskOnSucceed implements EventHandler<WorkerStateEvent>
 
     @Override
     public synchronized void handle(WorkerStateEvent event) {
+        // if search was successful
         if (tab.searchResult()) {
             // if search is successful -> reloading content
             try {
@@ -30,6 +34,7 @@ public class SearchInFileTaskOnSucceed implements EventHandler<WorkerStateEvent>
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
+            // initiate show task after search
             ShowTask showTask = new ShowTask(tab, oRaf,tabTemplateController);
             showTask.setOnSucceeded(new ShowTaskOnSucceed(tab,showTask,oRaf,tabTemplateController));
             TaskExecutor.getInstance().executeTask(showTask);

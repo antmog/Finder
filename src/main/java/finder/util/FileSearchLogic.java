@@ -38,7 +38,7 @@ public class FileSearchLogic {
                 // searching files and making form for result tree
                 searchInTree(finderInstance.getFileTree().getRoot(), listOfDirs, sb, extensions);
                 Platform.runLater(() -> {
-                    // generating result tree
+                    // generating result tree if search wasn't stopped
                     if(finderInstance.getSearchButton().getText().equals("Stop")){
                         ResultTreeCreateLogic.showResultFileTree(sb, listOfDirs);
                     }
@@ -49,6 +49,10 @@ public class FileSearchLogic {
         });
     }
 
+    /**
+     * Stops current search in fileTree (closes stream).
+     * @param exec ExecutorService which runs the task which is going to be stopped.
+     */
     public static void stopSearch(ExecutorService exec){
         FinderInstance finderInstance = FinderAction.getInstance().getFinderInstance();
         finderInstance.getAddButton().setDisable(false);

@@ -29,9 +29,12 @@ public class ShowTask extends Task<Boolean> {
         tab.clearRowNumbersBuffer();
         tab.clearTabStringBuffer();
         String line;
+
+        // Check values to be shown (if loaded to buffer) see CheckShowParamsTask description
         CountDownLatch countDownLatch = new CountDownLatch(1);
         TaskExecutor.getInstance().executeTask(new CheckShowParamsTask(tab,countDownLatch));
         countDownLatch.await();
+
         oRaf.seek(tab.getLinePos(tab.getStartLineNumber()));
 
         for (int i = 0; i < tab.getShowLinesCount(); i++) {

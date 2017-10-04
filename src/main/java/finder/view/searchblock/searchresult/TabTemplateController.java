@@ -123,8 +123,12 @@ public class TabTemplateController {
     @FXML
     private void goTo() {
         if (tab.isFree()) {
-            tab.setStartLineNumber(Long.parseLong(numberOfRow.getText()));
-            checkShowParamsOnAction();
+            try{
+                tab.setStartLineNumber(Long.parseLong(numberOfRow.getText()));
+                checkShowParamsOnAction();
+            }catch(NumberFormatException e){
+                new WarningWindow("Wrong data format.");
+            }
         } else {
             new WarningWindow("Cant operate with text while information is loading.");
         }
@@ -201,11 +205,15 @@ public class TabTemplateController {
 
     }
 
+    /**
+     * Check new lines set to be shown and load from  file if needed. See CheckShowParamsTask.
+     */
     private synchronized void checkShowParamsOnAction(){
         tab.setLoading();
         CheckShowParamsTask checkShowParamsTask = new CheckShowParamsTask(tab);
         checkShowParamsTask.setOnSucceeded(event -> {
             showText();
+            // replace search pointer after navigation (goTo/up/down)
             tab.setSearchPointer(tab.getStartLineNumber());
 
         });

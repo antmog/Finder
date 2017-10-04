@@ -33,10 +33,9 @@ public class FileTab {
     private long lineLength;                      // length of line (see also OptimizedRandomAccessFile.java.readLine())
     private long lineCount;                                 // count of lines in file
     private long fileLength;                                // length of file
-    private HashMap<Long,LineInfo> lines = new HashMap<>();
-    //private HashMap<Long, Long> lines = new HashMap<>();                      // lines with each line start position
+    private HashMap<Long,LineInfo> lines = new HashMap<>();     // <LineNumber,LineInfo>
     // line number 0..N:start position   <=> line number 1..N (means as we get 0 line as 1): line after this position
-    private Long lastKey;
+    private Long lastKey; // last key of 'lines' hashMap.
 
     private SearchDirection direction = SearchDirection.FORWARD;
     private long searchPosition = 0;                // additional position pointer (current line) for search operations
@@ -71,10 +70,10 @@ public class FileTab {
     /**
      * Setting tab scene elements.
      *
-     * @param textArea
-     * @param showLinesCountField
-     * @param rowNumbers
-     * @param lineCountLabel
+     * @param textArea textArea
+     * @param showLinesCountField textField with count of lines to show (showLinesCountField)
+     * @param rowNumbers textArea with rowNumbers
+     * @param lineCountLabel label with lineCountLabel
      */
     public void setElements(TextArea textArea, TextField showLinesCountField, TextArea rowNumbers, Label lineCountLabel) {
         this.textArea = textArea;
@@ -108,7 +107,11 @@ public class FileTab {
      * Setting text to Label (number of lines in file).
      */
     public void setLineCount() {
-        this.lineCountLabel.setText(String.valueOf(lineCount - 1));
+        if(lineCount - 1<0){
+            this.lineCountLabel.setText("Undefined.");
+        }else{
+            this.lineCountLabel.setText(String.valueOf(lineCount - 1));
+        }
     }
 
     public long getShowLinesCount() {
@@ -131,14 +134,25 @@ public class FileTab {
         this.fileLength = fileLength;
     }
 
+    /**
+     * Returns position of lineNumber line (in bytes). Returns null if line with lineNumber key doesn't exist.
+     * @param lineNumber lineNumber
+     * @return position of lineNumber line (in bytes).
+     */
     public Long getLinePos(Long lineNumber) {
         return this.lines.get(lineNumber)==null?null:this.lines.get(lineNumber).getLinePos();
 
     }
 
+    /**
+     * Returns true if line lineNumber contains search text.
+     * @param lineNumber
+     * @return true/false
+     */
     public boolean getLineContains(Long lineNumber) {
         return this.lines.get(lineNumber).isContains();
     }
+
     /**
      * Add line to hashmap and mark last added line number as lastKey (sorting hashMap and taking last = much time).
      * @param lineNumber
@@ -149,20 +163,24 @@ public class FileTab {
         lastKey=lineNumber;
     }
 
+    /**
+     * Set true/false flag, true if line contains text, else:false.
+     * @param lineNumber
+     * @param linePosition
+     * @param contains true/false
+     */
     public void lineSetContains(Long lineNumber, Long linePosition, boolean contains) {
         this.lines.put(lineNumber, new LineInfo(linePosition,contains));
     }
 
     /**
      * Get last entry key which is manually marked while adding line. Doesn't take much time.
-     * @return
+     * @return returns last key of hashMap lines.
      */
     public Long getLastLineKey(){
         return lastKey;
     }
-    public HashMap<Long,LineInfo> getLines(){
-        return this.lines;
-    }
+
 
     /**
      * Writing FileTab showLines value to showLinesCount TextField

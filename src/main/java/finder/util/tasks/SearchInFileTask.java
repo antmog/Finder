@@ -24,6 +24,8 @@ public class SearchInFileTask extends Task<Void> {
         String line;
         Long lineNumber = tab.getSearchPointer();
 
+        // Check if searchPointer is in loaded lines range and search in buffer (hashMap lines) if it is.
+        // if found value in buffer - break => lineNumber is set to number of line, where value was found.
         if (tab.getDirection() == SearchDirection.FORWARD) {
             for (; lineNumber < tab.getLastLineKey(); lineNumber++) {
                 if (tab.getLineContains(lineNumber)) {
@@ -37,10 +39,11 @@ public class SearchInFileTask extends Task<Void> {
                 }
             }
         }
-
-
+        // Start search from this line and start search from this line
+        // if lineNumber hasn't been changed (line hasn't been found in buffer) - continue search from initial pointer
         tab.setSearchPointer(lineNumber);
         oRaf.seek(tab.getLinePos(lineNumber));
+
         while ((line = oRaf.readLineCustom()) != null) {
             if ((indexInLine = line.indexOf(tab.getSearchText())) != -1) {
                 // set index in line pos
@@ -54,9 +57,11 @@ public class SearchInFileTask extends Task<Void> {
                 // setting first displayed line as number of line of found element
                 tab.setStartLineNumber(tab.getSearchPointer());
                 tab.searchSucceed();
-                // checking limit of lines
+                // end search and break w/o increment pointer
                 break;
             }
+            // iterations of position for "back" search
+            // lineNumber inc/dec according to direction
             if (tab.getDirection() == SearchDirection.BACK) {
                 if (tab.getSearchPointer() == 0) {
                     tab.setSearchPointer(tab.getStartLineNumber());
@@ -73,6 +78,7 @@ public class SearchInFileTask extends Task<Void> {
             }
 
         }
+        // inc/dec search pointer(according to direction) after search
         if ((line != null) && (tab.getDirection() == SearchDirection.FORWARD)) {
             tab.incSearchPointer();
         }

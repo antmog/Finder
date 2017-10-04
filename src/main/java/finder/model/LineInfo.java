@@ -1,7 +1,8 @@
 package finder.model;
 
-import javax.sound.sampled.Line;
-
+/**
+ * Object, containing line position (in bytes) and contains flag (true if line contains search text, else:false).
+ */
 public class LineInfo {
     private Long linePos;
     private boolean contains = false;

@@ -10,6 +10,9 @@ import javafx.event.EventHandler;
 
 import java.io.FileNotFoundException;
 
+/**
+ * Handler for ShowTask success.
+ */
 public class ShowTaskOnSucceed implements EventHandler<WorkerStateEvent> {
     private FileTab tab;
     private ShowTask showTask;
@@ -26,41 +29,36 @@ public class ShowTaskOnSucceed implements EventHandler<WorkerStateEvent> {
     @Override
     public void handle(WorkerStateEvent event) {
         // operations with JavaFX elements (not allowed in thread)
-        if(showTask.getValue()){
+        if (showTask.getValue()) {
+            // loading values to scene elements (logic inside of FileTab(tab) instance)
             tab.setLineCount();
             tab.setShowLinesCount();
             tab.writeFromTabStringBuffer();
             tab.getRowNumbers().setText(tab.getRowNumbersBuffer().toString());
-
+            // if search in file succeed => selecting elements in text area
             if (tab.searchResult()) {
-
-                // if search in file succeed => selecting elements in text area
                 String textAreaText = tab.getTextArea().getText();
                 int nextIndex = 0;
                 int currentIndex;
-
-                int line = (int) (tab.getFindElementLine()-tab.getStartLineNumber());
-
+                int line = (int) (tab.getFindElementLine() - tab.getStartLineNumber());
 
                 int i = 0;
-                while((currentIndex=textAreaText.indexOf("\n",nextIndex)) != -1){
-                    if(line == i){
-                        tab.getTextArea().selectRange(textAreaText.indexOf(tab.getSearchText(),nextIndex),
-                                textAreaText.indexOf(tab.getSearchText(),nextIndex)+tab.getSearchText().length());
-                        //tab.getTextArea().selectRange(nextIndex,nextIndex+tab.getSearchText().length());
+                while ((currentIndex = textAreaText.indexOf("\n", nextIndex)) != -1) {
+                    if (line == i) {
+                        tab.getTextArea().selectRange(textAreaText.indexOf(tab.getSearchText(), nextIndex),
+                                textAreaText.indexOf(tab.getSearchText(), nextIndex) + tab.getSearchText().length());
                     }
                     i++;
                     nextIndex = currentIndex + "\n".length();
                 }
-
                 // setting search flag to initial state (false)
                 tab.searchFinished();
             }
             // changing tab name back
             tab.setLoaded();
-        }else{
-            showTask = new ShowTask(tab, oRaf,tabTemplateController);
-            showTask.setOnSucceeded(new ShowTaskOnSucceed(tab,showTask,oRaf,tabTemplateController));
+        } else {
+            showTask = new ShowTask(tab, oRaf, tabTemplateController);
+            showTask.setOnSucceeded(new ShowTaskOnSucceed(tab, showTask, oRaf, tabTemplateController));
             TaskExecutor.getInstance().executeTask(showTask);
         }
     }

@@ -6,7 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * Created by antmog on 14.09.2017.
+ * Warning window class. Default constructor creates warning window with specified text.
  */
 public class WarningWindow {
     public WarningWindow(String warningText) {
