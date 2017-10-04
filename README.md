@@ -49,7 +49,7 @@ Search in file speed is optimized.
 * OptimizedRandomAccess file got from https://bitbucket.org/kienerj/io with several changes.
 * UTF8 charset only tested.
 * Not all exceptions in threads handled (also most of exceptions handled as printStackTrace()).
-* No supress warnings.
+* No suppress warnings.
 
 ## Contributing
 
