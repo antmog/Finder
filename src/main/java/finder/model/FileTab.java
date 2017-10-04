@@ -140,8 +140,9 @@ public class FileTab {
      * @return position of lineNumber line (in bytes).
      */
     public Long getLinePos(Long lineNumber) {
-        return this.lines.get(lineNumber)==null?null:this.lines.get(lineNumber).getLinePos();
-
+        return lines.get(lineNumber)==null?
+                null
+                :lines.get(lineNumber).getLinePos();
     }
 
     /**
@@ -150,7 +151,7 @@ public class FileTab {
      * @return true/false
      */
     public boolean getLineContains(Long lineNumber) {
-        return this.lines.get(lineNumber).isContains();
+        return lines.get(lineNumber) != null && lines.get(lineNumber).isContains();
     }
 
     /**
