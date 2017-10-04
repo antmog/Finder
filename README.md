@@ -58,9 +58,9 @@ gradle,java,JavaFX,css,fxml,png used
 ## About 
 Application view:
 
-![appview](https://pp.userapi.com/c841522/v841522790/1fa3d/4XTgxWYPDlY.jpg)
+![appview](https://pp.userapi.com/c841333/v841333544/263be/dc3fHRFVA4o.jpg)
 View details:
 
-![view details](https://lh4.googleusercontent.com/8uyKMN_8ssYZ4-DIsnu31pTn76T4vfzFT6XfE0dLABakDPfH-CSKTB604klmNvLZRJTmL0rZKSzjY-c=w1824-h822-rw)
-![view details](https://lh5.googleusercontent.com/HOUxy9CIhNmrUFYbsCK6VKpo1skbyIdxgQFpTgJ2MZldKaTlY4iDcwdBia2T0zBmJcg_uiLH9OFy7Go=w1824-h822)
-![view details](https://lh4.googleusercontent.com/eTR-_eRE93kbHqS8-GdwQRayG7W58FSAldBher0hG9gYpVgsGttAmsQJkALkqXsdDFES4hMf5hujREM=w1824-h822-rw)
+![view details](https://pp.userapi.com/c841333/v841333544/263c8/axGY01of1MU.jpg)
+![view details](https://pp.userapi.com/c841326/v841326544/28fcf/6X-owl1p0OQ.jpg)
+![view details](https://pp.userapi.com/c841333/v841333544/263d7/o74hp9LXA-4.jpg)
