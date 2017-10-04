@@ -28,16 +28,11 @@ public class CheckShowParamsTask extends Task<Void> {
             Long position;
             Long lineNumber = tab.getStartLineNumber();
             // setting position
-            System.out.println("GLOBAL START: " + System.currentTimeMillis());
             position = lineNumber+tab.getShowLinesCount();
-            System.out.println("Position:" + position);
             if(tab.getLinePos(position)==null){
-                System.out.println("hashmapwork start: " + System.currentTimeMillis());
                 Long linePos;
                 cRaf.seek(tab.getLinePos(tab.getLastLineKey()));
                 lineNumber = tab.getLastLineKey();
-                System.out.println("hashmapwork end: " + System.currentTimeMillis());
-                System.out.println("start check: " + System.currentTimeMillis());
                 while (tab.getLinePos(position) == null) {
 
                     if ((line = cRaf.readLineCustom()) != null) {
@@ -48,7 +43,6 @@ public class CheckShowParamsTask extends Task<Void> {
                         tab.setFileLength(tab.getFileLength() + line.length() + System.lineSeparator().length());
                         tab.addLine(++lineNumber, linePos);
                     } else {
-                        System.out.println("Length of file: " + lineNumber);
                         tab.setLineCount(lineNumber);
                         if(lineNumber<tab.getShowLinesCount()){
                             tab.setShowLinesCountDefault();
@@ -63,11 +57,8 @@ public class CheckShowParamsTask extends Task<Void> {
                         }
                         break;
                     }
-
                 }
-                System.out.println("end check: " + System.currentTimeMillis());
             }
-            System.out.println("GLOBAL END: " + System.currentTimeMillis());
             if(this.countDownLatch != null){
                 this.countDownLatch.countDown();
             }

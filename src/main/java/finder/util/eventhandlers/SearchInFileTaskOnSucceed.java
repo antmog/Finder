@@ -30,7 +30,6 @@ public class SearchInFileTaskOnSucceed implements EventHandler<WorkerStateEvent>
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-            System.out.println("PREPARING TO SHOW RESULTATION");
             ShowTask showTask = new ShowTask(tab, oRaf,tabTemplateController);
             showTask.setOnSucceeded(new ShowTaskOnSucceed(tab,showTask,oRaf,tabTemplateController));
             TaskExecutor.getInstance().executeTask(showTask);

@@ -24,9 +24,6 @@ public class Finder extends Application {
         Finder.stage = stage;
         Finder.stage.setTitle("Finder");
         Finder.stage.initStyle(StageStyle.UNIFIED);
-        System.out.println(Resources.IMG+"icon.png");
-        System.out.println(System.lineSeparator().length());
-
 
         Finder.stage.getIcons().add(new Image(getClass().getResource(Resources.IMG + "icon.png").toString()));
         Finder.stage.setOnCloseRequest(event -> {

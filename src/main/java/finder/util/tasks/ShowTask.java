@@ -31,9 +31,7 @@ public class ShowTask extends Task<Boolean> {
         String line;
         CountDownLatch countDownLatch = new CountDownLatch(1);
         TaskExecutor.getInstance().executeTask(new CheckShowParamsTask(tab,countDownLatch));
-        System.out.println("Wait pls");
         countDownLatch.await();
-        System.out.println("finished indexer");
         oRaf.seek(tab.getLinePos(tab.getStartLineNumber()));
 
         for (int i = 0; i < tab.getShowLinesCount(); i++) {
@@ -46,9 +44,7 @@ public class ShowTask extends Task<Boolean> {
                 tab.getRowNumbersBuffer().append(System.lineSeparator());
             }
             else{
-                // count of lines in file (0..N) -> (1..N)
-                // if count of displayed lines set is more than file length (count of lines).
-                System.out.println("eto konec.............................................................................................");
+                // if false returned - program works wrong.....
                 return false;
             }
         }

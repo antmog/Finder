@@ -140,7 +140,7 @@ public class FileSearchLogic {
                 }
             }
         } catch (IOException e) {
-            System.out.println(e.getMessage()); // button STOP SEARCH causes stream to be closed.
+            System.err.println(e.getMessage());// button STOP SEARCH causes stream to be closed.
         }
         return find;
     }

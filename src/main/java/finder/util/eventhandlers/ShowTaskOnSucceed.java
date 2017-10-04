@@ -31,9 +31,9 @@ public class ShowTaskOnSucceed implements EventHandler<WorkerStateEvent> {
             tab.setShowLinesCount();
             tab.writeFromTabStringBuffer();
             tab.getRowNumbers().setText(tab.getRowNumbersBuffer().toString());
-            System.out.println("Start check if found");
+
             if (tab.searchResult()) {
-                System.out.println("SELECTION");
+
                 // if search in file succeed => selecting elements in text area
                 String textAreaText = tab.getTextArea().getText();
                 int nextIndex = 0;
@@ -53,18 +53,9 @@ public class ShowTaskOnSucceed implements EventHandler<WorkerStateEvent> {
                     nextIndex = currentIndex + "\n".length();
                 }
 
-
-
-                //while((currentIndex=textAreaText.indexOf(tab.getSearchText(),nextIndex)) != -1){
-                   // System.out.println("starts here: " + currentIndex);
-                   // nextIndex = currentIndex + tab.getSearchText().length();
-               // }
-
-
                 // setting search flag to initial state (false)
                 tab.searchFinished();
             }
-            System.out.println("showdone");
             // changing tab name back
             tab.setLoaded();
         }else{

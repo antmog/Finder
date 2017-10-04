@@ -56,19 +56,7 @@ public class TabTemplateController {
     private void initialize() {
         tab.setElements(textArea, showLinesCount, rowNumbers, lineCount);
         searchTextArea.setText(tab.getSearchText());
-        // analyzing file
-        try (OptimizedRandomAccessFile oRaf = new OptimizedRandomAccessFile(tab.getFile(), "r")) {
-            /*oRaf.seek(0);
-            tab.setLineLength(oRaf.readLine().length()+System.lineSeparator().length());
-            tab.setLineCount((oRaf.length()+System.lineSeparator().length()) / tab.getLineLength());
-            System.out.println("Line length: "+tab.getLineLength());
-            System.out.println("Lines count: " + tab.getLineCount());
-            System.out.println("Raf length: " + oRaf.length());
-            // calculating buffer size according to line length
-            */
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // analyze file here if needed
         showText();
     }
 
@@ -78,7 +66,6 @@ public class TabTemplateController {
     private synchronized void showText() {
         // setting tab name to "Loading..."
         tab.setLoading();
-        System.out.println("showstart");
         try {
             oRaf = new OptimizedRandomAccessFile(tab.getFile(), "r", 8192);
             ShowTask showTask = new ShowTask(tab, oRaf,this);
@@ -187,7 +174,6 @@ public class TabTemplateController {
     @FXML
     private void down() {
         if (tab.isFree()) {
-            System.out.println("DOWN.");
             tab.setShowLinesCountFromField(showLinesCount.getText());
             tab.setStartLineNumber(tab.getStartLineNumber() + tab.getShowLinesCount());
             if (tab.getStartLineNumber() < 0) {
