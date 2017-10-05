@@ -89,7 +89,7 @@ public class TabTemplateController {
     /**
      * Searching text in file.
      */
-    private synchronized void search(SearchDirection direction) {
+    private void search(SearchDirection direction) {
         if (tab.isFree()) {
             tab.setDirection(direction);
             searchTextArea.setText(tab.getSearchText());
@@ -208,7 +208,7 @@ public class TabTemplateController {
     /**
      * Check new lines set to be shown and load from  file if needed. See CheckShowParamsTask.
      */
-    private synchronized void checkShowParamsOnAction(){
+    private void checkShowParamsOnAction(){
         tab.setLoading();
         CheckShowParamsTask checkShowParamsTask = new CheckShowParamsTask(tab);
         checkShowParamsTask.setOnSucceeded(event -> {

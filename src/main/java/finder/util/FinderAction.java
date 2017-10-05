@@ -86,7 +86,9 @@ public class FinderAction implements ActionsInterface, SetInstanceParamsInterfac
             finderInstance.getAddExtensionTextField().setDisable(true);
             finderInstance.getSearchButton().setText("Stop");
             finderInstance.getFileTreePane().setDisable(true);
-            ExecutorService exec = Executors.newCachedThreadPool();
+            // count of threads depends on: count of files to be analized/this file sizes
+            // for many big files - ThreadPool need to be larger or even be cachedThreadPool
+            ExecutorService exec = Executors.newFixedThreadPool(15);
             finderInstance.getSearchButton().setOnAction(event -> FileSearchLogic.stopSearch(exec));
             FileSearchLogic.searchFiles(exec);
         }

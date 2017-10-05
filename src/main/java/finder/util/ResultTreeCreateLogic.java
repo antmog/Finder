@@ -10,15 +10,16 @@ import javafx.scene.image.ImageView;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 
 public class ResultTreeCreateLogic {
     /**
      * Generate and show result tree.
      *
-     * @param listOfDirs List of directories containing files we search for (and files).
      * @param sb         Text to search.
+     * @param listOfDirs List of directories containing files we search for (and files).
      */
-    public static void showResultFileTree(StringBuffer sb, List<File> listOfDirs ) {
+    public static void showResultFileTree(StringBuffer sb, TreeSet<File> listOfDirs ) {
         FinderInstance finderInstance = FinderAction.getInstance().getFinderInstance();
         // creating new tree from root of main tree (where folders to search are selected)
         // suppress warning? i swear finderInstance.getFileTree().getRoot() is a tree item
@@ -37,11 +38,10 @@ public class ResultTreeCreateLogic {
      * Adding search results one by one INCLUDING FILEPATH as tree nodes (if we have D:\folder1\file1 and
      * D:\folder1\file2 then manually adding
      * full file path as tree nodes: D:\ D:\folder1 D:\folder1\file1/2( + checking if tree node alrdy exists) ).
-     *
-     * @param resultRootItem Result root item for result tree.
+     *  @param resultRootItem Result root item for result tree.
      * @param listOfDirs     Result of search.
      */
-    private static void generateResultTree(TreeItem<String> resultRootItem, List<File> listOfDirs) {
+    private static void generateResultTree(TreeItem<String> resultRootItem, TreeSet<File> listOfDirs) {
         ArrayList<CheckBoxTreeItem<String>> listOfItems = new ArrayList<>(); // temp list to keep full path to file
         // for example for file  "D:\folder1\file1" : "D:\" + "D:\folder1" + "D:\folder1\file1"
 
