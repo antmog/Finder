@@ -27,7 +27,7 @@ To get project:
 ```shell
 git clone https://github.com/antmog/Finder.git
 cd Finder/
-(make sure that you have gradle/gradle plugin in your IDE installed )
+(make sure that you have gradle/gradle IDE plugin installed )
 ```
 
 ## Features
