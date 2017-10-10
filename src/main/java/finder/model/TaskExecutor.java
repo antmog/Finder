@@ -25,8 +25,8 @@ public class TaskExecutor {
     }
     public ExecutorService getExec(){
         return exec;
-
     }
+
     private TaskExecutor() {
         exec = Executors.newCachedThreadPool();
     }

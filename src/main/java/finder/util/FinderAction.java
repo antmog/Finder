@@ -43,7 +43,7 @@ public class FinderAction implements ActionsInterface, SetInstanceParamsInterfac
         finderInstance = new FinderInstance();
     }
 
-    ChangeListener<TreeItem<String>> changeListener;
+    private ChangeListener<TreeItem<String>> changeListener;
 
     public FinderInstance getFinderInstance() {
         return finderInstance;
