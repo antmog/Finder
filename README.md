@@ -1,5 +1,7 @@
+# First of all, this is my life's first TEST TASK before interview. I will keep it as history :D That was really long time ago.
+
 ![Logo of the project](https://lh4.googleusercontent.com/jMMn2i2lQv9cNeEmH-BKEdI9irUGCcsSA5Fx5TZ68MdT1Z0AXkCadXunA8aYhxVLFD1P38KcobikxFA=w1504-h871)
-# FinderApp
+## FinderApp
 
 Desktop application to search log files(text files), containing specified text in file tree and network*, allows to specify files extension, read(navigation)/search text inside this files (also 1GB+).
 > \* no tests for search in network
